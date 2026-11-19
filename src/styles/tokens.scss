@@ -1,0 +1,51 @@
+:root {
+  /* Paleta ADN MOVA (Cero neón / Cero cuadrículas) */
+  --bg-obsidian: #070B14;
+  --bg-primary: #0B1120;
+  --bg-slate: #0F172A;
+
+  --surface-card: #0F172A;
+  --surface-elevated: #131D33;
+  --surface-hover: #17233B;
+  --surface-glass: rgba(15, 23, 42, 0.78);
+  --surface-subtle: rgba(255, 255, 255, 0.035);
+
+  --accent-mova: #2563EB;
+  --accent-mova-light: #3B82F6;
+  --accent-mova-soft: rgba(37, 99, 235, 0.14);
+  --accent-mova-glow: rgba(37, 99, 235, 0.1);
+
+  --text-main: #F8FAFC;
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  --border-hairline: rgba(148, 163, 184, 0.14);
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.28);
+  --border-active: rgba(59, 130, 246, 0.55);
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-card: 20px;
+  --radius-pill: 9999px;
+
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-snappy: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --z-bg: 0;
+  --z-base: 1;
+  --z-nav: 60;
+  --z-dialog: 90;
+
+  --container-max: 1180px;
+  --section-pad-y: clamp(4.25rem, 8vw, 7rem);
+  --space-xs: 0.5rem;
+  --space-sm: 0.85rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+}

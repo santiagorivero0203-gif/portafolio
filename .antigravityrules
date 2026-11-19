@@ -1,0 +1,50 @@
+# REGLAS ESTRICTAS DEL PROYECTO — PORTAFOLIO SANTIAGO RIVERO
+
+## 1. STACK TECNOLÓGICO OBLIGATORIO (PROHIBIDO REACT Y TAILWIND)
+- **Framework Core:** SvelteKit con **Svelte 5 (Runes API: `$state`, `$derived`, `$effect`, `$props`)**.
+- **Prohibiciones Estrictas:** Está terminantemente PROHIBIDO generar código en React, JSX/TSX o usar clases de TailwindCSS.
+- **Estilos:** **SCSS Modular** (`<style lang="scss">`) apoyado en un archivo global `src/styles/tokens.scss` con variables CSS nativas.
+- **Motor 3D y Físicas:** **Threlte** (`@threlte/core`, `@threlte/extras`, `@threlte/rapier` o dinámicas de resorte en `useTask`) para el Carnet 3D (Lanyard) y el fondo estelar.
+- **Animaciones y Scroll:** **Lenis** para scroll inercial suave y **GSAP (ScrollTrigger)** combinado con `svelte/motion` (`Spring`, `Tween`) para transiciones de vistas y pestañas.
+
+## 2. DIRECCIÓN DE ARTE "ADN MOVA" (CERO NEÓN / CERO CUADRÍCULAS)
+- **Prohibición de Cuadrículas:** Prohibido usar grillas o cuadrículas de fondo (`linear-gradient` de líneas ortogonales o patrones de malla).
+- **Prohibición de Neón:** Prohibido usar colores fosforescentes/neón (cyan eléctrico chillón, magenta, verde láser) o resplandores pesados (`box-shadow` saturados).
+- **Paleta MOVA:**
+  - `--bg-primary`: `#0B1120` (Obsidiana Pizarra MOVA profundo y limpio para secciones espaciales) alternando con bloques editoriales de alto contraste en `#0F172A` y superficies traslúcidas limpias `rgba(255, 255, 255, 0.04)`.
+  - `--accent-mova`: `#2563EB` (Azul Cobalto MOVA principal) y `#3B82F6` (Cobalto luminoso controlado para bordes activos y micro-interacciones).
+  - `--text-primary`: `#F8FAFC` (Blanco Alabastro nítido).
+  - `--text-secondary`: `#94A3B8` (Gris Pizarra técnico).
+  - `--border-subtle`: `rgba(148, 163, 184, 0.14)` (Bordes finos de 1px estilo editorial).
+- **Fondo Atmosférico:** Campo de estrellas minimalista y partículas flotantes lentas en un `<Canvas>` de fondo con luces radiales muy difusas en azul cobalto (`opacity: 0.12`), sin líneas de cuadrícula.
+- **Navegación:** Barra superior flotante en forma de píldora centrada (`backdrop-filter: blur(16px)`), con indicador activo deslizante.
+
+## 3. DATOS BIOGRÁFICOS Y CREDENCIALES VERÍDICAS (INMUTABLES)
+- **Nombre:** Santiago Rivero.
+- **Formación Académica:**
+  - Estudiante actual de la **Licenciatura en Física** en la **Universidad Central de Venezuela (UCV)**.
+  - **Bachiller graduado con altas calificaciones** (REGLA ESTRICTA: Nunca escribir "graduado con honores"; usar siempre "graduado con altas calificaciones" o "alto rendimiento académico").
+- **Premio Principal + Liderazgo y Oratoria:**
+  - **Campeón (1er Lugar) de la Kurios Competition 2026 — Categoría U-Code** (como líder de desarrollo del videojuego *The Last Endo*).
+  - La narrativa debe reflejar que este campeonato fue resultado tanto de su arquitectura técnica como de su **liderazgo de equipo, oratoria y capacidad de persuasión** frente al jurado.
+- **Certificados Destacados:**
+  1. **Certificado de Python Avalado Internacionalmente**.
+  2. **Certificado en Oratoria y Persuasión**.
+- **Habilidad Complementaria:** Experiencia básica en **Edición de Video** (ritmo visual, cortes dinámicos y edición para contenido tecnológico), integrada en su propio módulo audiovisual.
+
+## 4. ARQUITECTURA DE LOS 6 PROYECTOS DESTACADOS (VISTA INTERNA `DETAILS`)
+Todos los proyectos se muestran en el *Portfolio Showcase* y cuentan con un botón **`Detalles →`** que abre una **Vista Interna Dedicada** (con transición suave y botón `← Volver al Portafolio`) que muestra arquitectura, tecnologías, *Key Features* y galería.
+
+### Grupo A: Proyectos con Acceso Directo + Vista Interna `Detalles →`
+1. **MOVA:** Aplicación impulsada por IA para interpretación de lengua de señas en tiempo real (Visión artificial, matemáticas vectoriales, interfaz de alta precisión).
+2. **The Last Endo:** Videojuego 2D ganador del 1er Lugar en Kurios Competition 2026 (Categoría U-Code). Debe incluir fotos del equipo, desglose de liderazgo técnico y pitch.
+3. **Invoficlib Project (GiraStock):** Aplicación web comercial para gestión de inventario y consignación desarrollada para Editorial Girasol.
+4. **Be A Legend:** Videojuego 2D Action-RPG con shaders GLSL personalizados, pipeline de pixel art y sistema de combate modular.
+
+### Grupo B: Proyectos de Inmersión Explicativa (SOLO Vista Interna `Detalles →`, SIN links externos falsos)
+5. **Simulación SIMADI:** Simulación algorítmica y modelado de sistema. Explicar su lógica interna, flujo de datos y demostración visual dentro de la vista `Detalles`.
+6. **App de Productividad Personal:** Ecosistema privado de productividad y sincronización académica en tiempo real con widgets móviles. Indicar explícitamente que es de uso privado y explicar su arquitectura, base de datos y flujo en la vista `Detalles` sin colocar botones de acceso público.
+
+## 5. TRATAMIENTO DE FOTOS Y MULTIMEDIA
+- **Fotos Personales sin Fondo (PNG):** Integrarlas con `mask-image: linear-gradient(to bottom, black 82%, transparent 100%)` e iluminación de contorno sutil cobalto/blanca para que se fundan con el diseño sin parecer recortes pegados.
+- **Fotos de Equipos:** Mostrarlas en abanicos interactivos o galerías limpias dentro del bloque de Logros (Kurios 2026) y dentro de la vista `Detalles` de los proyectos colaborativos.

@@ -1,0 +1,20 @@
+@mixin focus-ring {
+  outline: 2px solid var(--accent-mova-light);
+  outline-offset: 3px;
+}
+
+@mixin surface-card($bg: var(--surface-card), $radius: var(--radius-card)) {
+  background-color: $bg;
+  border: 1px solid var(--border-hairline);
+  border-radius: $radius;
+}
+
+@mixin hairline-divider {
+  border-top: 1px solid var(--border-hairline);
+}
+
+@mixin respond-below($bp) {
+  @media (max-width: $bp) {
+    @content;
+  }
+}
