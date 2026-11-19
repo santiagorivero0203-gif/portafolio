@@ -113,6 +113,19 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.65rem;
+
+		@media (max-width: 640px) {
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.5rem;
+
+			.banner-btn {
+				justify-content: center;
+				padding: 0.68rem 0.65rem;
+				font-size: 0.78rem;
+			}
+		}
 	}
 
 	.banner-btn {
@@ -158,7 +171,8 @@
 		}
 
 		@media (max-width: 640px) {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.72rem;
 		}
 	}
 
@@ -177,6 +191,32 @@
 		&:hover {
 			border-color: var(--border-active);
 			transform: translateY(-2px);
+		}
+
+		@media (max-width: 640px) {
+			border-radius: 16px;
+
+			&:first-child {
+				grid-column: 1 / -1;
+			}
+
+			&:not(:first-child) {
+				.cert-preview {
+					height: 108px;
+				}
+
+				.cert-body {
+					padding: 0.85rem 0.78rem;
+					gap: 0.35rem;
+				}
+
+				.cert-summary {
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+				}
+			}
 		}
 	}
 

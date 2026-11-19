@@ -103,6 +103,16 @@
 		role="region"
 		aria-label="Credencial interactiva de Santiago Rivero"
 	>
+		<!-- Mobile-only editorial context behind the hanging 3D lanyard (hidden on desktop) -->
+		<div class="mobile-stage-backdrop" aria-hidden="true">
+			<span class="mobile-watermark">Santiago</span>
+			<div class="mobile-flank-meta">
+				<span>CARACAS · VE</span>
+				<span>UCV · 1ER SEM.</span>
+			</div>
+			<div class="mobile-stage-halo"></div>
+		</div>
+
 		{#if !showInteractive3D}
 			<div class="static-badge" class:flipped>
 				<div class="static-strap" aria-hidden="true"></div>
@@ -176,13 +186,63 @@
 	}
 
 	.lanyard-slot-anchor {
+		position: relative;
 		width: 100%;
 		height: clamp(425px, 58svh, 515px);
 		pointer-events: none;
 
 		@media (max-width: 960px) {
-			height: clamp(345px, 46svh, 405px);
+			height: clamp(275px, 38svh, 330px);
 		}
+	}
+
+	.mobile-stage-backdrop {
+		display: none;
+
+		@media (max-width: 960px) {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			position: absolute;
+			inset: 0.35rem 0 0;
+			pointer-events: none;
+			overflow: hidden;
+		}
+	}
+
+	.mobile-watermark {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -52%);
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(4.6rem, 23vw, 6.8rem);
+		line-height: 1;
+		color: rgba(248, 250, 252, 0.055);
+		white-space: nowrap;
+		letter-spacing: -0.02em;
+		user-select: none;
+	}
+
+	.mobile-flank-meta {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-inline: 0.15rem;
+		font-family: var(--font-mono);
+		font-size: 0.65rem;
+		letter-spacing: 0.08em;
+		color: rgba(148, 163, 184, 0.62);
+	}
+
+	.mobile-stage-halo {
+		position: absolute;
+		inset: 12% 14% 8%;
+		background: radial-gradient(circle, rgba(37, 99, 235, 0.17) 0%, transparent 68%);
+		filter: blur(8px);
 	}
 
 	.static-badge {

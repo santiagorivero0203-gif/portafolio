@@ -6,15 +6,17 @@
 	interface Props {
 		project: Project;
 		featured?: boolean;
+		compact?: boolean;
 	}
 
-	let { project, featured = false }: Props = $props();
+	let { project, featured = false, compact = false }: Props = $props();
 	let hovered = $state(false);
 </script>
 
 <article
 	class="project-card"
 	class:featured
+	class:compact
 	onpointerenter={() => (hovered = true)}
 	onpointerleave={() => (hovered = false)}
 >
@@ -46,7 +48,7 @@
 		<p class="project-desc">{project.shortDescription}</p>
 
 		<div class="tech-row">
-			{#each project.technologies.slice(0, 3) as tech}
+			{#each project.technologies.slice(0, compact ? 2 : 3) as tech}
 				<span class="tech-tag">{tech}</span>
 			{/each}
 		</div>
@@ -54,9 +56,13 @@
 		<div class="project-actions">
 			<a href="/proyectos/{project.id}" class="details-link">
 				<span>
-					{project.accessType === 'public' ? 'Detalles' : 'Explorar arquitectura'}
+					{compact
+						? 'Ver caso'
+						: project.accessType === 'public'
+							? 'Detalles'
+							: 'Explorar arquitectura'}
 				</span>
-				<Icon name="arrow-right" size={16} />
+				<Icon name="arrow-right" size={compact ? 14 : 16} />
 			</a>
 		</div>
 	</div>
@@ -192,6 +198,69 @@
 
 		&:hover {
 			color: var(--text-main);
+		}
+	}
+
+	/* Compact 2x2 mobile bento card refinement */
+	.project-card.compact {
+		border-radius: 16px;
+
+		.project-thumb {
+			height: 102px;
+		}
+
+		.project-body {
+			padding: 0.8rem 0.78rem 0.85rem;
+			gap: 0.36rem;
+		}
+
+		.project-category {
+			font-size: 0.62rem;
+		}
+
+		.access-pill,
+		.featured-tag {
+			display: none;
+		}
+
+		.project-title {
+			font-size: 0.96rem;
+			line-height: 1.22;
+		}
+
+		.project-subtitle {
+			font-size: 0.86rem;
+			line-height: 1.25;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+		}
+
+		.project-desc {
+			display: none;
+		}
+
+		.tech-row {
+			gap: 0.25rem;
+			margin-top: 0.15rem;
+		}
+
+		.tech-tag {
+			font-size: 0.6rem;
+			padding: 0.14rem 0.42rem;
+			max-width: 100%;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.project-actions {
+			padding-top: 0.6rem;
+		}
+
+		.details-link {
+			font-size: 0.78rem;
 		}
 	}
 </style>

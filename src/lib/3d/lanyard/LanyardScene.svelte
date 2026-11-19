@@ -79,7 +79,7 @@
 
 		const isMobile = window.innerWidth <= 960;
 		const targetCardPx = isMobile
-			? Math.min(335, Math.max(280, sRect.height * 0.86))
+			? Math.min(280, Math.max(225, sRect.height * 0.85))
 			: Math.min(445, Math.max(365, window.innerHeight * 0.54));
 
 		const visH = (CARD_WORLD_HEIGHT * oRect.height) / targetCardPx;

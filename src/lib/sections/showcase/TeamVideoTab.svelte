@@ -151,8 +151,8 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 1.25rem;
 
-		@media (max-width: 820px) {
-			grid-template-columns: 1fr;
+		@media (max-width: 640px) {
+			gap: 0.72rem;
 		}
 	}
 
@@ -163,12 +163,20 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
+
+		@media (max-width: 640px) {
+			border-radius: 16px;
+		}
 	}
 
 	.team-photo-box {
 		height: 210px;
 		border-bottom: 1px solid var(--border-hairline);
 		background: var(--bg-obsidian);
+
+		@media (max-width: 640px) {
+			height: 112px;
+		}
 	}
 
 	.team-info {
@@ -188,12 +196,35 @@
 			color: var(--text-muted);
 			line-height: 1.56;
 		}
+
+		@media (max-width: 640px) {
+			padding: 0.85rem 0.78rem;
+			gap: 0.35rem;
+
+			h4 {
+				font-size: 0.94rem;
+				line-height: 1.24;
+			}
+
+			p {
+				font-size: 0.78rem;
+				line-height: 1.44;
+				display: -webkit-box;
+				-webkit-line-clamp: 3;
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+		}
 	}
 
 	.team-meta {
 		font-family: var(--font-mono);
 		font-size: 0.73rem;
 		color: var(--accent-mova-light);
+
+		@media (max-width: 640px) {
+			font-size: 0.63rem;
+		}
 	}
 
 	.team-collabs {
@@ -207,6 +238,10 @@
 		gap: 0.25rem;
 		font-size: 0.85rem;
 		color: var(--text-secondary);
+
+		@media (max-width: 640px) {
+			display: none;
+		}
 	}
 
 	.video-summary {
@@ -306,6 +341,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.65rem;
+
+		@media (max-width: 640px) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.65rem;
+		}
 	}
 
 	.reel-item {
@@ -323,6 +364,13 @@
 		&.active,
 		&:hover {
 			border-color: var(--border-active);
+		}
+
+		@media (max-width: 640px) {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 0.85rem 0.78rem;
+			gap: 0.4rem;
 		}
 	}
 

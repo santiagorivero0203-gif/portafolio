@@ -395,7 +395,7 @@
 		border-top: 1px solid var(--border-hairline);
 
 		@media (max-width: 640px) {
-			grid-template-columns: 1fr;
+			gap: 0.65rem;
 		}
 	}
 
@@ -408,6 +408,11 @@
 		flex-direction: column;
 		gap: 0.3rem;
 		transition: border-color 0.22s ease;
+
+		@media (max-width: 640px) {
+			padding: 0.85rem 0.8rem;
+			border-radius: 16px;
+		}
 
 		&:hover {
 			border-color: var(--border-active);

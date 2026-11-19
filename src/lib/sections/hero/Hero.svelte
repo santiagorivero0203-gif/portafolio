@@ -241,13 +241,18 @@
 		gap: 0.85rem;
 		width: 100%;
 
-		@media (max-width: 480px) {
-			flex-direction: column;
+		@media (max-width: 540px) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.6rem;
 
 			.btn-primary,
 			.btn-secondary {
 				width: 100%;
 				justify-content: center;
+				padding: 0.76rem 0.7rem;
+				font-size: 0.84rem;
+				white-space: nowrap;
 			}
 		}
 	}
@@ -301,8 +306,8 @@
 
 		@media (max-width: 960px) {
 			order: -1;
-			max-width: 390px;
-			padding-top: 4.9rem;
+			max-width: 100%;
+			padding-top: 4.35rem;
 		}
 	}
 </style>

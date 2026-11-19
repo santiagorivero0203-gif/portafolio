@@ -169,6 +169,12 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
+
+		@media (max-width: 640px) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.45rem;
+		}
 	}
 
 	.tab-btn {
@@ -183,6 +189,13 @@
 			background-color 0.22s ease,
 			border-color 0.22s ease,
 			color 0.22s ease;
+
+		@media (max-width: 640px) {
+			padding: 0.62rem 0.6rem;
+			border-radius: 12px;
+			font-size: 0.78rem;
+			text-align: center;
+		}
 
 		&:hover {
 			color: var(--text-main);

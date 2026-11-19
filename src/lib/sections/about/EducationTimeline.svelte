@@ -62,7 +62,10 @@
 
 		@media (max-width: 560px) {
 			grid-template-columns: 1fr;
-			gap: 0.35rem;
+			gap: 0.45rem;
+			padding: 0.9rem 0 0.9rem 0.95rem;
+			border-top: none;
+			border-left: 1px solid rgba(59, 130, 246, 0.35);
 		}
 	}
 
@@ -71,6 +74,14 @@
 		font-size: 0.76rem;
 		color: var(--accent-mova-light);
 		padding-top: 0.2rem;
+
+		@media (max-width: 560px) {
+			align-self: flex-start;
+			padding: 0.16rem 0.55rem;
+			border-radius: var(--radius-pill);
+			background: var(--accent-mova-soft);
+			font-size: 0.68rem;
+		}
 	}
 
 	.timeline-content {
@@ -112,7 +123,10 @@
 		padding-top: 1.25rem;
 
 		@media (max-width: 780px) {
-			grid-template-columns: 1fr;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.7rem;
+			border-top: none;
+			padding-top: 0;
 		}
 	}
 
@@ -120,6 +134,19 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.38rem;
+
+		@media (max-width: 780px) {
+			padding: 0.9rem;
+			border-radius: 16px;
+			background: var(--surface-card);
+			border: 1px solid var(--border-hairline);
+
+			&:first-child {
+				grid-column: 1 / -1;
+				background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, var(--surface-card) 70%);
+				border-color: rgba(59, 130, 246, 0.32);
+			}
+		}
 	}
 
 	.personal-tag {

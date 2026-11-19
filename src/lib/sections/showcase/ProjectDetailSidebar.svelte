@@ -169,6 +169,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
+
+		@media (max-width: 640px) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 0.65rem;
+		}
 	}
 
 	.gallery-frame {
@@ -179,6 +185,10 @@
 		border: 1px solid var(--border-hairline);
 		background: var(--bg-obsidian);
 		transition: border-color 0.22s ease;
+
+		@media (max-width: 640px) {
+			height: 120px;
+		}
 
 		&:hover {
 			border-color: var(--border-active);
