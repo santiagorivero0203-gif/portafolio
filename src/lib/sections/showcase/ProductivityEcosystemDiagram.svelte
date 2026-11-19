@@ -49,6 +49,23 @@
 		<span class="diagram-hint">Haz clic en cada capa para ver sus módulos</span>
 	</div>
 
+	<div class="mobile-layers-list" role="tablist" aria-label="Capas de la arquitectura">
+		{#each layers as layer (layer.id)}
+			{@const selected = activeId === layer.id}
+			<button
+				type="button"
+				role="tab"
+				class="mobile-layer-pill"
+				class:active={selected}
+				aria-selected={selected}
+				onclick={() => (activeId = layer.id)}
+			>
+				<span class="m-tag">{layer.tag}</span>
+				<span class="m-title">{layer.title}</span>
+			</button>
+		{/each}
+	</div>
+
 	<svg
 		viewBox="0 0 760 164"
 		class="eco-svg"
@@ -167,10 +184,62 @@
 		color: var(--text-muted);
 	}
 
+	.mobile-layers-list {
+		display: none;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		@media (max-width: 640px) {
+			display: flex;
+		}
+	}
+
+	.mobile-layer-pill {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.35rem;
+		padding: 0.75rem 1rem;
+		border-radius: var(--radius-md);
+		background: var(--bg-primary);
+		border: 1px solid var(--border-hairline);
+		text-align: left;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+
+		.m-tag {
+			font-family: var(--font-mono);
+			font-size: 0.68rem;
+			color: var(--accent-mova-light);
+			background: var(--accent-mova-soft);
+			padding: 0.15rem 0.45rem;
+			border-radius: 6px;
+		}
+
+		.m-title {
+			font-family: var(--font-display);
+			font-size: 0.9rem;
+			font-weight: 600;
+			color: var(--text-secondary);
+		}
+
+		&.active {
+			border-color: var(--accent-mova-light);
+			background: var(--surface-hover);
+
+			.m-title {
+				color: var(--text-main);
+			}
+		}
+	}
+
 	.eco-svg {
 		width: 100%;
 		height: auto;
 		display: block;
+
+		@media (max-width: 640px) {
+			display: none;
+		}
 	}
 
 	.eco-node {

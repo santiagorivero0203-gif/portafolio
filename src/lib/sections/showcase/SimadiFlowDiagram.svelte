@@ -48,6 +48,23 @@
 		<span class="diagram-hint">Selecciona un bloque para inspeccionar su lógica</span>
 	</div>
 
+	<div class="mobile-steps-list" role="tablist" aria-label="Etapas del algoritmo SIMADI">
+		{#each nodes as node (node.id)}
+			{@const selected = activeId === node.id}
+			<button
+				type="button"
+				role="tab"
+				class="mobile-step-pill"
+				class:active={selected}
+				aria-selected={selected}
+				onclick={() => (activeId = node.id)}
+			>
+				<span class="m-step">{node.step}</span>
+				<span class="m-title">{node.title}</span>
+			</button>
+		{/each}
+	</div>
+
 	<svg
 		viewBox="0 0 760 170"
 		class="flow-svg"
@@ -163,11 +180,62 @@
 		color: var(--text-muted);
 	}
 
+	.mobile-steps-list {
+		display: none;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		@media (max-width: 640px) {
+			display: flex;
+		}
+	}
+
+	.mobile-step-pill {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.75rem 1rem;
+		border-radius: var(--radius-md);
+		background: var(--bg-primary);
+		border: 1px solid var(--border-hairline);
+		text-align: left;
+		transition: border-color 0.2s ease, background-color 0.2s ease;
+
+		.m-step {
+			font-family: var(--font-mono);
+			font-size: 0.76rem;
+			color: var(--accent-mova-light);
+			background: var(--accent-mova-soft);
+			padding: 0.15rem 0.45rem;
+			border-radius: 6px;
+		}
+
+		.m-title {
+			font-family: var(--font-display);
+			font-size: 0.9rem;
+			font-weight: 600;
+			color: var(--text-secondary);
+		}
+
+		&.active {
+			border-color: var(--accent-mova-light);
+			background: var(--surface-hover);
+
+			.m-title {
+				color: var(--text-main);
+			}
+		}
+	}
+
 	.flow-svg {
 		width: 100%;
 		height: auto;
 		display: block;
 		overflow: visible;
+
+		@media (max-width: 640px) {
+			display: none;
+		}
 	}
 
 	.svg-node {
