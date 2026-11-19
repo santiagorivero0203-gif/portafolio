@@ -27,7 +27,7 @@
 
 <div class="starfield-layer" aria-hidden="true">
 	{#if !reducedMotion && SceneComponent}
-		<Canvas dpr={[1, 2]}>
+		<Canvas dpr={[1, 1.5]}>
 			<SceneComponent />
 		</Canvas>
 	{/if}

@@ -39,8 +39,9 @@
 	let hitMeshRef = $state<THREE.Mesh | undefined>(undefined);
 	let strapRef = $state<THREE.Mesh | undefined>(undefined);
 
-	let camZ = $state(13.2);
-	let bounds = { minX: -5, maxX: 5, minY: -3.5, maxY: 3.5, visH: 8.5, visW: 12 };
+	let camZ = $state(11.5);
+	let bounds = { minX: -5, maxX: 5, minY: -3.5, maxY: 3.5, visH: 7.5, visW: 11 };
+	let overlayMetrics = { docLeft: 0, docTop: 0, width: 1200, height: 920 };
 	let anchor: LanyardAnchor = { ...LANYARD_CONSTANTS };
 
 	let isDragging = false;
@@ -69,10 +70,17 @@
 		const sRect = slotEl.getBoundingClientRect();
 		if (oRect.width <= 0 || oRect.height <= 0) return;
 
+		overlayMetrics = {
+			docLeft: oRect.left + window.scrollX,
+			docTop: oRect.top + window.scrollY,
+			width: oRect.width,
+			height: oRect.height
+		};
+
 		const isMobile = window.innerWidth <= 960;
 		const targetCardPx = isMobile
-			? Math.min(278, Math.max(225, sRect.height * 0.78))
-			: Math.min(365, Math.max(300, window.innerHeight * 0.44));
+			? Math.min(335, Math.max(280, sRect.height * 0.86))
+			: Math.min(445, Math.max(365, window.innerHeight * 0.54));
 
 		const visH = (CARD_WORLD_HEIGHT * oRect.height) / targetCardPx;
 		const visW = visH * (oRect.width / oRect.height);
@@ -117,26 +125,20 @@
 	}
 
 	function clientToNdc(clientX: number, clientY: number): boolean {
-		if (!overlayEl) return false;
-		const rect = overlayEl.getBoundingClientRect();
-		if (rect.width <= 0 || rect.height <= 0) return false;
+		const { docLeft, docTop, width, height } = overlayMetrics;
+		if (width <= 0 || height <= 0) return false;
 
-		pointerNdc.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-		pointerNdc.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+		const localX = clientX + window.scrollX - docLeft;
+		const localY = clientY + window.scrollY - docTop;
+		if (localX < 0 || localX > width || localY < 0 || localY > height) return false;
+
+		pointerNdc.x = (localX / width) * 2 - 1;
+		pointerNdc.y = -(localY / height) * 2 + 1;
 		return true;
 	}
 
 	function hitTestCard(clientX: number, clientY: number): boolean {
-		if (!camRef || !hitMeshRef || !overlayEl) return false;
-		const rect = overlayEl.getBoundingClientRect();
-		if (
-			clientX < rect.left ||
-			clientX > rect.right ||
-			clientY < rect.top ||
-			clientY > rect.bottom
-		) {
-			return false;
-		}
+		if (paused || !camRef || !hitMeshRef) return false;
 		if (!clientToNdc(clientX, clientY)) return false;
 
 		raycaster.setFromCamera(pointerNdc, camRef);
@@ -190,12 +192,13 @@
 		if (overlayEl) resizeObserver.observe(overlayEl);
 		if (slotEl) resizeObserver.observe(slotEl);
 
-		const isFlipControl = (target: EventTarget | null) =>
-			target instanceof Element && Boolean(target.closest('.flip-btn'));
+		const isBlockedUiControl = (target: EventTarget | null) =>
+			target instanceof Element &&
+			Boolean(target.closest('.flip-btn, header.navbar-wrapper'));
 
 		const handlePointerDown = (e: PointerEvent) => {
 			if (e.pointerType === 'touch') return;
-			if (e.button !== 0 || isFlipControl(e.target)) return;
+			if (e.button !== 0 || isBlockedUiControl(e.target)) return;
 
 			if (hitTestCard(e.clientX, e.clientY)) {
 				e.preventDefault();
@@ -212,7 +215,9 @@
 				return;
 			}
 
-			const hit = hitTestCard(e.clientX, e.clientY) && !isFlipControl(e.target);
+			if (paused) return;
+
+			const hit = !isBlockedUiControl(e.target) && hitTestCard(e.clientX, e.clientY);
 			if (hit !== isHovered) {
 				isHovered = hit;
 				document.body.style.cursor = hit ? 'grab' : 'default';
@@ -225,7 +230,7 @@
 
 		const handleTouchStart = (e: TouchEvent) => {
 			const touch = e.touches[0];
-			if (!touch || isFlipControl(e.target)) return;
+			if (!touch || isBlockedUiControl(e.target)) return;
 
 			if (hitTestCard(touch.clientX, touch.clientY)) {
 				e.preventDefault();
@@ -245,7 +250,7 @@
 			endDrag();
 		};
 
-		const handleScrollOrResize = () => {
+		const handleResize = () => {
 			syncViewportMetrics();
 		};
 
@@ -257,8 +262,7 @@
 		window.addEventListener('touchmove', handleTouchMove, { passive: false });
 		window.addEventListener('touchend', handleTouchEnd);
 		window.addEventListener('touchcancel', handleTouchEnd);
-		window.addEventListener('resize', handleScrollOrResize);
-		window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+		window.addEventListener('resize', handleResize);
 
 		return () => {
 			resizeObserver.disconnect();
@@ -270,8 +274,7 @@
 			window.removeEventListener('touchmove', handleTouchMove);
 			window.removeEventListener('touchend', handleTouchEnd);
 			window.removeEventListener('touchcancel', handleTouchEnd);
-			window.removeEventListener('resize', handleScrollOrResize);
-			window.removeEventListener('scroll', handleScrollOrResize);
+			window.removeEventListener('resize', handleResize);
 			document.body.style.cursor = 'default';
 		};
 	});

@@ -73,11 +73,9 @@
 	const showInteractive3D = $derived(
 		!reducedMotion && webglSupported && LanyardSceneComponent !== null
 	);
-	const lanyardDpr =
-		typeof window !== 'undefined' ? Math.min(Math.max(window.devicePixelRatio || 1, 2), 2.5) : 2;
 </script>
 
-<!-- Full-hero unobstructed overlay layer: hangs from y=0 of page and floats ABOVE navbar and text -->
+<!-- Full-hero unobstructed overlay layer: hangs from y=0, floats ABOVE hero content, stays BEHIND navbar -->
 <div
 	class="lanyard-overlay"
 	class:dragging={isDragging}
@@ -85,7 +83,7 @@
 	aria-hidden="true"
 >
 	{#if showInteractive3D && LanyardSceneComponent}
-		<Canvas dpr={lanyardDpr} toneMapping={THREE.NoToneMapping}>
+		<Canvas dpr={[1, 1.5]} toneMapping={THREE.NoToneMapping}>
 			<LanyardSceneComponent
 				paused={!isVisible}
 				{flipped}
@@ -159,8 +157,8 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: max(128svh, 960px);
-		z-index: 75;
+		height: max(120svh, 920px);
+		z-index: 40;
 		pointer-events: none;
 
 		&.dragging {
@@ -179,11 +177,11 @@
 
 	.lanyard-slot-anchor {
 		width: 100%;
-		height: clamp(390px, 54svh, 470px);
+		height: clamp(425px, 58svh, 515px);
 		pointer-events: none;
 
 		@media (max-width: 960px) {
-			height: clamp(325px, 42svh, 380px);
+			height: clamp(345px, 46svh, 405px);
 		}
 	}
 
@@ -321,7 +319,7 @@
 
 	.lanyard-controls {
 		position: relative;
-		z-index: 76;
+		z-index: 41;
 		margin-top: 0.4rem;
 		display: inline-flex;
 		align-items: center;
