@@ -68,7 +68,6 @@
 	<div class="container hero-grid">
 		<div class="hero-copy">
 			<p class="hero-status">
-				<span class="status-dot" aria-hidden="true"></span>
 				<span>{santiagoProfile.statusBadge}</span>
 			</p>
 
@@ -86,7 +85,9 @@
 				{/if}
 			</div>
 
-			<h1 class="display-xl hero-title">{santiagoProfile.heroTitle}</h1>
+			<h1 class="display-xl hero-title">
+				Ingeniería de software, física y <em class="serif-accent">comunicación clara.</em>
+			</h1>
 
 			<p class="body-lg hero-description">{santiagoProfile.heroBio}</p>
 
@@ -115,19 +116,20 @@
 		z-index: var(--z-base);
 		min-height: 100svh;
 		display: flex;
-		align-items: center;
-		padding-top: clamp(6.5rem, 11vw, 8.5rem);
+		align-items: flex-start;
+		padding-top: 0;
 		padding-bottom: clamp(3.5rem, 6vw, 5rem);
 	}
 
 	.hero-grid {
 		display: grid;
-		grid-template-columns: minmax(0, 1.18fr) minmax(0, 0.82fr);
-		gap: clamp(2rem, 5vw, 4.25rem);
-		align-items: center;
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+		gap: clamp(1.5rem, 4.5vw, 4rem);
+		align-items: start;
 
 		@media (max-width: 960px) {
 			grid-template-columns: 1fr;
+			gap: 1.5rem;
 		}
 	}
 
@@ -135,23 +137,24 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		padding-top: clamp(7.5rem, 13vw, 9.75rem);
+
+		@media (max-width: 960px) {
+			padding-top: 0.75rem;
+		}
 	}
 
 	.hero-status {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.55rem;
+		padding: 0.3rem 0.78rem;
+		border-radius: var(--radius-pill);
+		border: 1px solid var(--border-hairline);
+		background: var(--surface-subtle);
 		font-family: var(--font-mono);
-		font-size: 0.78rem;
+		font-size: 0.74rem;
 		color: var(--text-secondary);
-		margin-bottom: 1.5rem;
-	}
-
-	.status-dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--accent-mova-light);
+		margin-bottom: 1.35rem;
 	}
 
 	.hero-identity {
@@ -269,7 +272,12 @@
 
 	.hero-visual {
 		width: 100%;
-		max-width: 440px;
+		max-width: 460px;
 		margin-inline: auto;
+
+		@media (max-width: 960px) {
+			order: -1;
+			max-width: 390px;
+		}
 	}
 </style>

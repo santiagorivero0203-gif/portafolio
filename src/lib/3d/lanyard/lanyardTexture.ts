@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import { profileData } from '$lib/data/portfolioData';
+
+const LOGICAL_W = 768;
+const LOGICAL_H = 1120;
+const TEX_SCALE = 2; // 1536 x 2240 retina-sharp canvas texture
 
 function roundRectPath(
 	ctx: CanvasRenderingContext2D,
@@ -27,30 +30,30 @@ function drawPortraitSlot(
 	W: number,
 	photoImg: HTMLImageElement | null
 ): void {
-	const photoX = W / 2 - 145;
-	const photoY = 186;
-	const photoSize = 290;
+	const photoX = W / 2 - 142;
+	const photoY = 178;
+	const photoSize = 284;
 
-	roundRectPath(ctx, photoX, photoY, photoSize, photoSize, 36);
-	ctx.fillStyle = 'rgba(255, 255, 255, 0.035)';
+	roundRectPath(ctx, photoX, photoY, photoSize, photoSize, 38);
+	ctx.fillStyle = '#0D1528';
 	ctx.fill();
-	ctx.lineWidth = 2;
-	ctx.strokeStyle = 'rgba(59, 130, 246, 0.44)';
+	ctx.lineWidth = 2.5;
+	ctx.strokeStyle = 'rgba(96, 165, 250, 0.42)';
 	ctx.stroke();
 
 	ctx.save();
-	roundRectPath(ctx, photoX, photoY, photoSize, photoSize, 36);
+	roundRectPath(ctx, photoX, photoY, photoSize, photoSize, 38);
 	ctx.clip();
 
 	const portraitGlow = ctx.createRadialGradient(
 		W / 2,
-		photoY + 130,
+		photoY + 126,
 		10,
 		W / 2,
-		photoY + 145,
-		155
+		photoY + 142,
+		160
 	);
-	portraitGlow.addColorStop(0, 'rgba(37, 99, 235, 0.25)');
+	portraitGlow.addColorStop(0, 'rgba(37, 99, 235, 0.28)');
 	portraitGlow.addColorStop(1, 'rgba(15, 23, 42, 0)');
 	ctx.fillStyle = portraitGlow;
 	ctx.fillRect(photoX, photoY, photoSize, photoSize);
@@ -63,23 +66,23 @@ function drawPortraitSlot(
 		const dy = photoY + (photoSize - dh) / 2;
 		ctx.drawImage(photoImg, dx, dy, dw, dh);
 	} else {
-		ctx.fillStyle = 'rgba(248, 250, 252, 0.1)';
+		// Clean typographic editorial monogram
+		ctx.strokeStyle = 'rgba(148, 163, 184, 0.16)';
+		ctx.lineWidth = 1.5;
 		ctx.beginPath();
-		ctx.arc(W / 2, photoY + 110, 44, 0, Math.PI * 2);
-		ctx.fill();
-
-		ctx.beginPath();
-		ctx.ellipse(W / 2, photoY + 260, 96, 84, 0, Math.PI, Math.PI * 2);
-		ctx.fill();
+		ctx.arc(W / 2, photoY + 132, 82, 0, Math.PI * 2);
+		ctx.stroke();
 
 		ctx.fillStyle = '#F8FAFC';
-		ctx.font = '700 54px "Space Grotesk", system-ui, sans-serif';
+		ctx.font = '800 84px "Bricolage Grotesque", system-ui, sans-serif';
 		ctx.textAlign = 'center';
-		ctx.fillText('SR', W / 2, photoY + 178);
+		ctx.textBaseline = 'middle';
+		ctx.fillText('SR', W / 2, photoY + 134);
 
-		ctx.fillStyle = '#94A3B8';
-		ctx.font = '500 17px "IBM Plex Mono", monospace';
-		ctx.fillText('FÍSICA UCV', W / 2, photoY + 264);
+		ctx.fillStyle = '#93C5FD';
+		ctx.font = '500 18px "JetBrains Mono", monospace';
+		ctx.textBaseline = 'alphabetic';
+		ctx.fillText('SANTIAGO RIVERO', W / 2, photoY + 252);
 	}
 
 	ctx.restore();
@@ -87,125 +90,257 @@ function drawPortraitSlot(
 
 function renderFrontCanvas(
 	ctx: CanvasRenderingContext2D,
-	W: number,
-	H: number,
 	photoImg: HTMLImageElement | null
 ): void {
-	ctx.clearRect(0, 0, W, H);
+	const W = LOGICAL_W;
+	const H = LOGICAL_H;
 
-	roundRectPath(ctx, 16, 16, W - 32, H - 32, 48);
+	ctx.save();
+	ctx.setTransform(TEX_SCALE, 0, 0, TEX_SCALE, 0, 0);
+	ctx.clearRect(0, 0, W, H);
+	ctx.imageSmoothingEnabled = true;
+	ctx.imageSmoothingQuality = 'high';
+
+	// Card body background
+	roundRectPath(ctx, 14, 14, W - 28, H - 28, 48);
 	const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-	bgGrad.addColorStop(0, '#0F172A');
-	bgGrad.addColorStop(0.55, '#0B1120');
-	bgGrad.addColorStop(1, '#070B14');
+	bgGrad.addColorStop(0, '#101B33');
+	bgGrad.addColorStop(0.55, '#0B1222');
+	bgGrad.addColorStop(1, '#070C17');
 	ctx.fillStyle = bgGrad;
 	ctx.fill();
 
 	ctx.lineWidth = 3;
-	ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
+	ctx.strokeStyle = 'rgba(148, 163, 184, 0.34)';
 	ctx.stroke();
 
 	ctx.save();
-	roundRectPath(ctx, 16, 16, W - 32, H - 32, 48);
+	roundRectPath(ctx, 14, 14, W - 28, H - 28, 48);
 	ctx.clip();
 
-	const halo = ctx.createRadialGradient(W * 0.5, 360, 20, W * 0.5, 360, 320);
-	halo.addColorStop(0, 'rgba(37, 99, 235, 0.2)');
+	// Subtle top atmospheric cobalt lighting
+	const halo = ctx.createRadialGradient(W * 0.5, 310, 20, W * 0.5, 310, 360);
+	halo.addColorStop(0, 'rgba(37, 99, 235, 0.22)');
 	halo.addColorStop(1, 'rgba(37, 99, 235, 0)');
 	ctx.fillStyle = halo;
 	ctx.fillRect(0, 0, W, H);
 
+	// Cobalt top header bar
 	ctx.fillStyle = '#2563EB';
-	ctx.fillRect(16, 16, W - 32, 118);
+	ctx.fillRect(14, 14, W - 28, 118);
 
-	roundRectPath(ctx, W / 2 - 58, 44, 116, 22, 11);
+	// Lanyard slot cutout
+	roundRectPath(ctx, W / 2 - 58, 40, 116, 22, 11);
 	ctx.fillStyle = '#070B14';
 	ctx.fill();
 
 	ctx.fillStyle = '#F8FAFC';
-	ctx.font = '500 23px "IBM Plex Mono", monospace';
+	ctx.font = '500 22px "JetBrains Mono", monospace';
 	ctx.textAlign = 'center';
-	ctx.fillText(profileData.badgeCode, W / 2, 108);
+	ctx.textBaseline = 'alphabetic';
+	ctx.fillText('PORTAFOLIO // 2026', W / 2, 106);
 
 	drawPortraitSlot(ctx, W, photoImg);
 
+	// Prominent Name
 	ctx.fillStyle = '#F8FAFC';
-	ctx.font = '700 50px "Space Grotesk", system-ui, sans-serif';
+	ctx.font = '800 58px "Bricolage Grotesque", system-ui, sans-serif';
 	ctx.textAlign = 'center';
-	ctx.fillText('SANTIAGO RIVERO', W / 2, 560);
+	ctx.fillText('Santiago Rivero', W / 2, 548);
+
+	// Editorial italic role line + clean degree status
+	ctx.fillStyle = '#BFDBFE';
+	ctx.font = 'italic 400 32px "Instrument Serif", Georgia, serif';
+	ctx.fillText('Software Developer & Creative Engineer', W / 2, 602);
 
 	ctx.fillStyle = '#CBD5E1';
-	ctx.font = '500 24px "DM Sans", system-ui, sans-serif';
-	ctx.fillText('Software Developer &', W / 2, 616);
-	ctx.fillText('Licenciatura en Física (UCV)', W / 2, 652);
+	ctx.font = '500 23px "Plus Jakarta Sans", system-ui, sans-serif';
+	ctx.fillText('Estudiante de Física · UCV (1er Semestre)', W / 2, 650);
 
-	ctx.strokeStyle = 'rgba(148, 163, 184, 0.18)';
+	// Crisp divider
+	ctx.strokeStyle = 'rgba(148, 163, 184, 0.22)';
 	ctx.lineWidth = 2;
 	ctx.beginPath();
-	ctx.moveTo(84, 706);
-	ctx.lineTo(W - 84, 706);
+	ctx.moveTo(76, 704);
+	ctx.lineTo(W - 76, 704);
 	ctx.stroke();
 
-	const chips = ['IA · VISIÓN', 'GAME DEV', 'SHADERS GLSL'];
+	// Skill pills
+	const chips = ['IA & VISIÓN', 'WEB & 3D', 'GAME DEV'];
 	chips.forEach((chip, index) => {
-		const chipW = 184;
+		const chipW = 186;
 		const gap = 18;
 		const startX = W / 2 - (chips.length * chipW + (chips.length - 1) * gap) / 2;
 		const cx = startX + index * (chipW + gap);
-		roundRectPath(ctx, cx, 742, chipW, 48, 24);
-		ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
+		roundRectPath(ctx, cx, 742, chipW, 50, 25);
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.045)';
 		ctx.fill();
-		ctx.lineWidth = 1.5;
-		ctx.strokeStyle = 'rgba(148, 163, 184, 0.22)';
+		ctx.lineWidth = 1.6;
+		ctx.strokeStyle = 'rgba(148, 163, 184, 0.28)';
 		ctx.stroke();
 
-		ctx.fillStyle = '#E2E8F0';
-		ctx.font = '500 17px "IBM Plex Mono", monospace';
-		ctx.fillText(chip, cx + chipW / 2, 772);
+		ctx.fillStyle = '#F1F5F9';
+		ctx.font = '500 18px "JetBrains Mono", monospace';
+		ctx.fillText(chip, cx + chipW / 2, 773);
 	});
 
-	roundRectPath(ctx, 56, 858, W - 112, 168, 28);
+	// Bottom Identity Plate (focused strictly on Santiago Rivero, no "1er lugar")
+	roundRectPath(ctx, 54, 846, W - 108, 186, 28);
 	ctx.fillStyle = 'rgba(37, 99, 235, 0.14)';
 	ctx.fill();
 	ctx.lineWidth = 2;
-	ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+	ctx.strokeStyle = 'rgba(96, 165, 250, 0.45)';
 	ctx.stroke();
 
 	ctx.fillStyle = '#93C5FD';
-	ctx.font = '500 19px "IBM Plex Mono", monospace';
-	ctx.fillText('KURIOS COMPETITION 2026', W / 2, 912);
+	ctx.font = '500 19px "JetBrains Mono", monospace';
+	ctx.fillText('SANTIAGO ALFONSO RIVERO MÉNDEZ', W / 2, 902);
 
 	ctx.fillStyle = '#F8FAFC';
-	ctx.font = '700 31px "Space Grotesk", system-ui, sans-serif';
-	ctx.fillText('1ER LUGAR · U-CODE', W / 2, 962);
+	ctx.font = '700 30px "Bricolage Grotesque", system-ui, sans-serif';
+	ctx.fillText('Caracas, Venezuela', W / 2, 954);
 
 	ctx.fillStyle = '#CBD5E1';
-	ctx.font = '500 20px "DM Sans", system-ui, sans-serif';
-	ctx.fillText('The Last Endo · 21 de marzo de 2026', W / 2, 1002);
+	ctx.font = '500 20px "JetBrains Mono", monospace';
+	ctx.fillText('@santi.arm_dev · santiago.rivero0203@gmail.com', W / 2, 998);
 
+	ctx.restore();
+	ctx.restore();
+}
+
+function renderBackCanvas(ctx: CanvasRenderingContext2D): void {
+	const W = LOGICAL_W;
+	const H = LOGICAL_H;
+
+	ctx.save();
+	ctx.setTransform(TEX_SCALE, 0, 0, TEX_SCALE, 0, 0);
+	ctx.clearRect(0, 0, W, H);
+	ctx.imageSmoothingEnabled = true;
+	ctx.imageSmoothingQuality = 'high';
+
+	roundRectPath(ctx, 14, 14, W - 28, H - 28, 48);
+	const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+	bgGrad.addColorStop(0, '#0F182D');
+	bgGrad.addColorStop(1, '#070C17');
+	ctx.fillStyle = bgGrad;
+	ctx.fill();
+
+	ctx.lineWidth = 3;
+	ctx.strokeStyle = 'rgba(148, 163, 184, 0.34)';
+	ctx.stroke();
+
+	ctx.save();
+	roundRectPath(ctx, 14, 14, W - 28, H - 28, 48);
+	ctx.clip();
+
+	// Slot cutout
+	roundRectPath(ctx, W / 2 - 58, 40, 116, 22, 11);
+	ctx.fillStyle = '#070B14';
+	ctx.fill();
+	ctx.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+	ctx.lineWidth = 2;
+	ctx.stroke();
+
+	ctx.fillStyle = '#60A5FA';
+	ctx.font = '500 21px "JetBrains Mono", monospace';
+	ctx.textAlign = 'left';
+	ctx.fillText("m·x'' + c·x' + k·x = 0", 64, 126);
+
+	ctx.fillStyle = '#F8FAFC';
+	ctx.font = '700 42px "Bricolage Grotesque", system-ui, sans-serif';
+	ctx.fillText('Perfil y Credenciales', 64, 184);
+
+	const seals = [
+		{
+			badge: 'UCV · FACULTAD DE CIENCIAS',
+			title: 'Física · 1er Semestre',
+			desc: 'Iniciando formación universitaria en Caracas.'
+		},
+		{
+			badge: 'CEP · FACES · UCV (N° 000427)',
+			title: 'Oratoria y Persuasión',
+			desc: 'Comunicación técnica y defensa clara ante jurados.'
+		},
+		{
+			badge: 'IA & AUTOMATIZACIÓN',
+			title: 'Python & Ecosistema IA Google',
+			desc: 'Algoritmos, Gemini, AI Studio y flujos agénticos.'
+		},
+		{
+			badge: 'INGENIERÍA & PRODUCTO',
+			title: 'MOVA IA, Web 3D & Videojuegos',
+			desc: 'Visión artificial a 60 FPS, WebGL2 y Svelte 5.'
+		}
+	];
+
+	seals.forEach((seal, idx) => {
+		const cardY = 236 + idx * 182;
+		roundRectPath(ctx, 60, cardY, W - 120, 156, 24);
+		ctx.fillStyle = 'rgba(15, 23, 42, 0.94)';
+		ctx.fill();
+		ctx.lineWidth = 2;
+		ctx.strokeStyle = 'rgba(148, 163, 184, 0.24)';
+		ctx.stroke();
+
+		roundRectPath(ctx, 60, cardY + 26, 6, 104, 3);
+		ctx.fillStyle = '#3B82F6';
+		ctx.fill();
+
+		ctx.fillStyle = '#93C5FD';
+		ctx.font = '500 18px "JetBrains Mono", monospace';
+		ctx.fillText(seal.badge, 92, cardY + 48);
+
+		ctx.fillStyle = '#F8FAFC';
+		ctx.font = '700 28px "Bricolage Grotesque", system-ui, sans-serif';
+		ctx.fillText(seal.title, 92, cardY + 90);
+
+		ctx.fillStyle = '#CBD5E1';
+		ctx.font = '400 21px "Plus Jakarta Sans", system-ui, sans-serif';
+		ctx.fillText(seal.desc, 92, cardY + 126);
+	});
+
+	ctx.fillStyle = '#94A3B8';
+	ctx.font = '500 19px "JetBrains Mono", monospace';
+	ctx.textAlign = 'center';
+	ctx.fillText('SANTIAGO RIVERO · CARACAS · 2026', W / 2, 1034);
+
+	ctx.restore();
 	ctx.restore();
 }
 
 export function createFrontTexture(): THREE.CanvasTexture | null {
 	if (typeof document === 'undefined') return null;
 	const canvas = document.createElement('canvas');
-	canvas.width = 768;
-	canvas.height = 1120;
+	canvas.width = LOGICAL_W * TEX_SCALE;
+	canvas.height = LOGICAL_H * TEX_SCALE;
 	const ctx = canvas.getContext('2d');
 	if (!ctx) return null;
 
-	renderFrontCanvas(ctx, canvas.width, canvas.height, null);
+	let loadedPortrait: HTMLImageElement | null = null;
+	renderFrontCanvas(ctx, loadedPortrait);
 
 	const texture = new THREE.CanvasTexture(canvas);
 	texture.colorSpace = THREE.SRGBColorSpace;
-	texture.anisotropy = 4;
+	texture.anisotropy = 16;
+	texture.minFilter = THREE.LinearMipmapLinearFilter;
+	texture.magFilter = THREE.LinearFilter;
+	texture.generateMipmaps = true;
 	texture.needsUpdate = true;
+
+	// Re-render crisply once web fonts finish loading
+	if ('fonts' in document) {
+		document.fonts.ready.then(() => {
+			renderFrontCanvas(ctx, loadedPortrait);
+			texture.needsUpdate = true;
+		});
+	}
 
 	const tryLoadPortrait = (urls: string[], idx = 0) => {
 		if (idx >= urls.length) return;
 		const img = new Image();
 		img.onload = () => {
-			renderFrontCanvas(ctx, canvas.width, canvas.height, img);
+			loadedPortrait = img;
+			renderFrontCanvas(ctx, loadedPortrait);
 			texture.needsUpdate = true;
 		};
 		img.onerror = () => {
@@ -225,107 +360,28 @@ export function createFrontTexture(): THREE.CanvasTexture | null {
 export function createBackTexture(): THREE.CanvasTexture | null {
 	if (typeof document === 'undefined') return null;
 	const canvas = document.createElement('canvas');
-	canvas.width = 768;
-	canvas.height = 1120;
+	canvas.width = LOGICAL_W * TEX_SCALE;
+	canvas.height = LOGICAL_H * TEX_SCALE;
 	const ctx = canvas.getContext('2d');
 	if (!ctx) return null;
 
-	const W = canvas.width;
-	const H = canvas.height;
-
-	ctx.clearRect(0, 0, W, H);
-
-	roundRectPath(ctx, 16, 16, W - 32, H - 32, 48);
-	const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-	bgGrad.addColorStop(0, '#0B1120');
-	bgGrad.addColorStop(1, '#070B14');
-	ctx.fillStyle = bgGrad;
-	ctx.fill();
-
-	ctx.lineWidth = 3;
-	ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
-	ctx.stroke();
-
-	ctx.save();
-	roundRectPath(ctx, 16, 16, W - 32, H - 32, 48);
-	ctx.clip();
-
-	roundRectPath(ctx, W / 2 - 58, 44, 116, 22, 11);
-	ctx.fillStyle = '#070B14';
-	ctx.fill();
-	ctx.strokeStyle = 'rgba(148, 163, 184, 0.25)';
-	ctx.lineWidth = 2;
-	ctx.stroke();
-
-	ctx.fillStyle = '#3B82F6';
-	ctx.font = '500 20px "IBM Plex Mono", monospace';
-	ctx.textAlign = 'left';
-	ctx.fillText("m·x'' + c·x' + k·x = 0", 68, 128);
-
-	ctx.fillStyle = '#F8FAFC';
-	ctx.font = '700 38px "Space Grotesk", system-ui, sans-serif';
-	ctx.fillText('Credenciales y Sellos', 68, 184);
-
-	const seals = [
-		{
-			badge: 'UCV · FACULTAD DE CIENCIAS',
-			title: 'Licenciatura en Física',
-			desc: 'Bachiller con altas calificaciones (17.84 / 20).'
-		},
-		{
-			badge: 'CEP · FACES · UCV (N° 000427)',
-			title: 'Oratoria y Persuasión',
-			desc: 'Comunicación técnica y defensa ante jurados.'
-		},
-		{
-			badge: 'CERTIFICADO INTERNACIONAL',
-			title: 'Python Avalado',
-			desc: 'Algorítmica, simulación y bases para IA.'
-		},
-		{
-			badge: 'ARQUITECTURA & GRÁFICOS',
-			title: 'MOVA IA & Shaders GLSL',
-			desc: 'Visión artificial a 60 FPS, WebGL2 y Svelte 5.'
-		}
-	];
-
-	seals.forEach((seal, idx) => {
-		const cardY = 242 + idx * 176;
-		roundRectPath(ctx, 64, cardY, W - 128, 150, 24);
-		ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
-		ctx.fill();
-		ctx.lineWidth = 1.8;
-		ctx.strokeStyle = 'rgba(148, 163, 184, 0.18)';
-		ctx.stroke();
-
-		roundRectPath(ctx, 64, cardY + 26, 6, 98, 3);
-		ctx.fillStyle = '#2563EB';
-		ctx.fill();
-
-		ctx.fillStyle = '#60A5FA';
-		ctx.font = '500 17px "IBM Plex Mono", monospace';
-		ctx.fillText(seal.badge, 94, cardY + 46);
-
-		ctx.fillStyle = '#F8FAFC';
-		ctx.font = '700 26px "Space Grotesk", system-ui, sans-serif';
-		ctx.fillText(seal.title, 94, cardY + 86);
-
-		ctx.fillStyle = '#94A3B8';
-		ctx.font = '400 20px "DM Sans", system-ui, sans-serif';
-		ctx.fillText(seal.desc, 94, cardY + 120);
-	});
-
-	ctx.fillStyle = '#64748B';
-	ctx.font = '500 18px "IBM Plex Mono", monospace';
-	ctx.textAlign = 'center';
-	ctx.fillText('CARACAS · UCV · 2026', W / 2, 1028);
-
-	ctx.restore();
+	renderBackCanvas(ctx);
 
 	const texture = new THREE.CanvasTexture(canvas);
 	texture.colorSpace = THREE.SRGBColorSpace;
-	texture.anisotropy = 4;
+	texture.anisotropy = 16;
+	texture.minFilter = THREE.LinearMipmapLinearFilter;
+	texture.magFilter = THREE.LinearFilter;
+	texture.generateMipmaps = true;
 	texture.needsUpdate = true;
+
+	if ('fonts' in document) {
+		document.fonts.ready.then(() => {
+			renderBackCanvas(ctx);
+			texture.needsUpdate = true;
+		});
+	}
+
 	return texture;
 }
 

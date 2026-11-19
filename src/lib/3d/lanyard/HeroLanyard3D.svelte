@@ -72,7 +72,9 @@
 		};
 	});
 
-	const showInteractive3D = $derived(!reducedMotion && webglSupported && LanyardSceneComponent !== null);
+	const showInteractive3D = $derived(
+		!reducedMotion && webglSupported && LanyardSceneComponent !== null
+	);
 </script>
 
 <div class="lanyard-shell">
@@ -83,35 +85,38 @@
 		aria-label="Credencial interactiva de Santiago Rivero"
 	>
 		{#if showInteractive3D && LanyardSceneComponent}
-			<Canvas dpr={[1, 2]}>
+			<Canvas dpr={[1, 2.5]}>
 				<LanyardSceneComponent paused={!isVisible} {flipped} {stageEl} />
 			</Canvas>
 		{:else}
 			<div class="static-badge" class:flipped>
 				<div class="static-strap" aria-hidden="true"></div>
+				<div class="static-clasp" aria-hidden="true"></div>
 				<div class="static-card">
 					<div class="static-header">
-						<span>{santiagoProfile.badgeCode}</span>
+						<span>PORTAFOLIO // 2026</span>
 					</div>
 
 					{#if !flipped}
 						<div class="static-body">
 							<div class="static-monogram">SR</div>
 							<strong class="static-name">{santiagoProfile.displayName}</strong>
-							<span class="static-role">Software Developer · Física UCV</span>
-							<div class="static-award">
-								<span>Kurios Competition 2026</span>
-								<strong>1er Lugar · Categoría U-Code</strong>
+							<span class="static-role">Software Developer & Creative Engineer</span>
+							<span class="static-degree">Física UCV · 1er Semestre</span>
+							<div class="static-identity">
+								<span>{santiagoProfile.fullName}</span>
+								<strong>{santiagoProfile.location}</strong>
 							</div>
 						</div>
 					{:else}
 						<div class="static-body back">
 							<span class="static-formula">m·x'' + c·x' + k·x = 0</span>
+							<strong class="static-name">Perfil y Credenciales</strong>
 							<ul class="static-seals">
-								<li>Licenciatura en Física (UCV)</li>
-								<li>Bachiller 17.84/20 · Altas calificaciones</li>
-								<li>Oratoria UCV (CEP FACES · N° 000427)</li>
-								<li>Python Internacional · MOVA · GLSL</li>
+								<li>UCV · Licenciatura en Física (1er Semestre)</li>
+								<li>CEP · FACES · UCV — Oratoria y Persuasión</li>
+								<li>Python Avalado & Ecosistema IA Google</li>
+								<li>MOVA IA, Web 3D & Videojuegos 2D</li>
 							</ul>
 						</div>
 					{/if}
@@ -122,7 +127,7 @@
 
 	<div class="lanyard-controls">
 		<span class="physics-hint">
-			{showInteractive3D ? 'Arrastra el carnet · péndulo amortiguado' : 'Credencial UCV · Kurios 2026'}
+			{showInteractive3D ? 'Arrastra el carnet' : 'Santiago Rivero · UCV'}
 		</span>
 		<button type="button" class="flip-btn" onclick={() => (flipped = !flipped)}>
 			<Icon name="flip" size={14} />
@@ -142,12 +147,16 @@
 	.lanyard-stage {
 		position: relative;
 		width: 100%;
-		height: clamp(410px, 56vh, 520px);
-		border-radius: var(--radius-card);
-		border: 1px solid var(--border-hairline);
-		background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(7, 11, 20, 0.9) 100%);
-		overflow: hidden;
+		height: clamp(500px, 78svh, 660px);
+		background: transparent;
+		border: none;
+		border-radius: 0;
+		overflow: visible;
 		touch-action: none;
+
+		@media (max-width: 960px) {
+			height: clamp(410px, 56svh, 490px);
+		}
 	}
 
 	.static-badge {
@@ -156,31 +165,40 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		padding: 1.5rem;
+		justify-content: flex-start;
+		padding-bottom: 1rem;
 	}
 
 	.static-strap {
-		width: 16px;
-		height: 36px;
-		background: #1e3a8a;
-		border-radius: 3px 3px 0 0;
+		width: 20px;
+		height: clamp(86px, 14vh, 140px);
+		background: linear-gradient(180deg, #1d4ed8 0%, #2563eb 100%);
+	}
+
+	.static-clasp {
+		width: 30px;
+		height: 14px;
+		border-radius: 4px 4px 2px 2px;
+		background: #94a3b8;
+		margin-bottom: -4px;
+		z-index: 2;
 	}
 
 	.static-card {
-		width: min(260px, 100%);
+		width: min(270px, 100%);
 		border-radius: 18px;
 		background: var(--bg-primary);
 		border: 1px solid var(--border-strong);
 		overflow: hidden;
+		box-shadow: 0 24px 48px rgba(2, 6, 23, 0.55);
 	}
 
 	.static-header {
 		background: var(--accent-mova);
-		padding: 0.8rem 1rem;
+		padding: 0.78rem 1rem;
 		text-align: center;
 		font-family: var(--font-mono);
-		font-size: 0.74rem;
+		font-size: 0.72rem;
 		color: var(--text-main);
 	}
 
@@ -190,7 +208,7 @@
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 0.5rem;
+		gap: 0.42rem;
 
 		&.back {
 			align-items: flex-start;
@@ -199,14 +217,14 @@
 	}
 
 	.static-monogram {
-		width: 72px;
-		height: 72px;
-		border-radius: 16px;
+		width: 74px;
+		height: 74px;
+		border-radius: 18px;
 		display: grid;
 		place-items: center;
 		font-family: var(--font-display);
-		font-size: 1.5rem;
-		font-weight: 700;
+		font-size: 1.65rem;
+		font-weight: 800;
 		background: var(--accent-mova-soft);
 		border: 1px solid var(--border-active);
 		color: var(--text-main);
@@ -215,16 +233,24 @@
 
 	.static-name {
 		font-family: var(--font-display);
-		font-size: 1.12rem;
+		font-size: 1.24rem;
+		font-weight: 700;
 		color: var(--text-main);
 	}
 
 	.static-role {
-		font-size: 0.82rem;
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 0.98rem;
+		color: #bfdbfe;
+	}
+
+	.static-degree {
+		font-size: 0.8rem;
 		color: var(--text-muted);
 	}
 
-	.static-award {
+	.static-identity {
 		width: 100%;
 		margin-top: 0.65rem;
 		padding: 0.7rem;
@@ -237,20 +263,20 @@
 
 		span {
 			font-family: var(--font-mono);
-			font-size: 0.65rem;
+			font-size: 0.62rem;
 			color: #93c5fd;
 		}
 
 		strong {
 			font-family: var(--font-display);
-			font-size: 0.84rem;
+			font-size: 0.86rem;
 			color: var(--text-main);
 		}
 	}
 
 	.static-formula {
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
+		font-size: 0.74rem;
 		color: var(--accent-mova-light);
 	}
 
@@ -265,18 +291,23 @@
 	}
 
 	.lanyard-controls {
-		margin-top: 0.85rem;
-		display: flex;
+		margin-top: -0.5rem;
+		display: inline-flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-		width: 100%;
-		padding-inline: 0.2rem;
+		justify-content: center;
+		gap: 0.85rem;
+		padding: 0.35rem 0.45rem 0.35rem 0.95rem;
+		border-radius: var(--radius-pill);
+		background: rgba(11, 17, 32, 0.72);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--border-hairline);
+		z-index: 2;
 	}
 
 	.physics-hint {
 		font-family: var(--font-mono);
-		font-size: 0.75rem;
+		font-size: 0.73rem;
 		color: var(--text-muted);
 	}
 
@@ -284,11 +315,11 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 0.4rem;
-		padding: 0.42rem 0.85rem;
+		padding: 0.38rem 0.82rem;
 		border-radius: var(--radius-pill);
 		background: var(--surface-card);
 		border: 1px solid var(--border-hairline);
-		font-size: 0.8rem;
+		font-size: 0.78rem;
 		font-weight: 500;
 		color: var(--text-main);
 		transition:

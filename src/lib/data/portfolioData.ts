@@ -111,28 +111,28 @@ export const santiagoProfile = {
 	displayName: 'Santiago Rivero',
 	handle: '@SR Developer',
 	tiktokHandle: '@santi.arm_dev',
-	badgeCode: 'UCV // FÍSICA & DEV',
-	location: 'Caracas / Guatire, Venezuela',
-	headline: 'Desarrollador de Software & Estudiante de Licenciatura en Física (UCV)',
-	statusBadge: 'Licenciatura en Física UCV · 1er Lugar Kurios 2026 (U-Code)',
+	badgeCode: 'SANTIAGO RIVERO // UCV',
+	location: 'Caracas, Venezuela',
+	headline: 'Desarrollador de Software & Estudiante de Física (1er Semestre, UCV)',
+	statusBadge: 'Estudiante de Física UCV (1er Semestre) · Desarrollador de Software',
 	dynamicRoles: [
 		'Software Developer & Creative Engineer',
-		'Estudiante de Física en la UCV',
-		'1er Lugar Kurios Competition 2026 (U-Code)',
-		'IA, Videojuegos 2D & Sistemas Web'
+		'Estudiante de Física en la UCV (1er Semestre)',
+		'IA, Visión Artificial & Videojuegos 2D',
+		'Ecosistema de IA de Google & Sistemas Web'
 	],
-	heroTitle: 'Física universitaria, ingeniería de software y comunicación clara.',
+	heroTitle: 'Ingeniería de software, física y comunicación clara.',
 	heroBio:
-		'Estudio Licenciatura en Física en la UCV y construyo software aplicado: visión artificial en tiempo real, motores 2D con shaders GLSL y plataformas administrativas en producción. En marzo de 2026 lideré el desarrollo y la defensa de The Last Endo para ganar el 1er lugar en Kurios Competition (U-Code).',
+		'Construyo software aplicado: visión artificial en tiempo real, motores 2D con shaders GLSL y plataformas web en producción. Actualmente inicio el 1er semestre de la Licenciatura en Física en la UCV, combinando pensamiento analítico, ecosistema de IA de Google y comunicación clara.',
 	aboutBio: [
-		'Soy estudiante de la Licenciatura en Física en la Universidad Central de Venezuela (UCV — Facultad de Ciencias). Me gradué como Bachiller en el Colegio Nuestra Señora de la Consolación (Las Palmas, Caracas) con altas calificaciones y un promedio general de 17.839 / 20.',
-		'Uso herramientas matemáticas de la carrera —álgebra vectorial, ecuaciones de movimiento, simulación discreta y cómputo en GPU— para resolver problemas concretos de software, desde traducir gestos de lengua de señas a 60 FPS hasta controlar inventario por consignación.',
-		'Creo que el código sólido necesita defensa clara. Mi formación en oratoria y comunicación persuasiva en la UCV y la experiencia liderando equipos técnicos fueron determinantes al obtener el 1er lugar en Kurios Competition 2026.'
+		'Actualmente curso el 1er semestre de la Licenciatura en Física en la Universidad Central de Venezuela (UCV — Facultad de Ciencias). Me gradué como Bachiller con altas calificaciones en el Colegio Nuestra Señora de la Consolación (Las Palmas, Caracas).',
+		'Aunque estoy dando mis primeros pasos en la universidad, llevo tiempo aplicando lógica matemática, vectores, programación gráfica e inteligencia artificial para construir software real: desde traducir lengua de señas en vivo a 60 FPS con MOVA hasta controlar inventario por consignación.',
+		'Creo que el código sólido necesita saberse comunicar. Mi formación en Oratoria y Comunicación Persuasiva en la UCV, junto al uso profesional del ecosistema de IA de Google, impulsan la forma en que diseño, lidero y defiendo cada proyecto.'
 	],
 	kuriosNarrative:
 		'El 21 de marzo de 2026 obtuvimos el 1er lugar en la categoría U-Code de la Kurios Competition 2026 (Torneo Nacional de Robótica y Tecnología) con The Last Endo. Coordiné la arquitectura del juego bajo presión y presenté la defensa técnica frente al jurado.',
 	videoEditingSummary:
-		'Experiencia básica-intermedia en edición de video orientada a divulgación tecnológica y showreels (@santi.arm_dev): cortes limpios orientados a retención, sincronización rítmica y explicación visual de sistemas.',
+		'Edición básica de video en CapCut orientada a demos de software, presentaciones de proyectos y clips cortos (@santi.arm_dev): cortes limpios, ritmo claro y explicación visual directa.',
 	email: 'santiago.rivero0203@gmail.com',
 	altEmail: 'santiagoo.rivero0203@gmail.com',
 	socials: {
@@ -155,20 +155,20 @@ export const santiagoProfile = {
 			detail: 'Categoría U-Code · 21 de marzo de 2026'
 		},
 		{
-			id: 'academic-stat',
-			value: '17.84/20',
-			label: 'Promedio Bachillerato',
-			detail: 'Actual estudiante de Física en la UCV'
+			id: 'ucv-stat',
+			value: '1er Sem.',
+			label: 'Física en la UCV',
+			detail: 'Facultad de Ciencias · Inicio de carrera'
 		}
 	],
 	educationAndMilestones: [
 		{
 			id: 'ucv-physics',
-			period: 'Actualidad',
-			title: 'Licenciatura en Física',
+			period: '1er Semestre',
+			title: 'Licenciatura en Física (En curso)',
 			institution: 'Universidad Central de Venezuela (UCV) — Facultad de Ciencias',
 			description:
-				'Formación en mecánica, cálculo y modelado matemático aplicado a simulaciones computacionales, físicas de videojuegos y sistemas con álgebra vectorial.'
+				'Estudiante de primer semestre iniciando la formación universitaria en física y matemáticas, con enfoque en simulación computacional y software científico.'
 		},
 		{
 			id: 'oratoria-ucv',
@@ -192,7 +192,7 @@ export const santiagoProfile = {
 			title: 'Bachiller de la República',
 			institution: 'Colegio Nuestra Señora de la Consolación (Las Palmas, Caracas)',
 			description:
-				'Bachiller graduado con altas calificaciones (promedio general de 17.839 / 20) y participación en investigación científica experimental de química durante 6 meses.'
+				'Bachiller graduado con altas calificaciones, consolidando una base sólida en matemáticas, ciencias y programación antes de ingresar a la UCV.'
 		}
 	]
 };
@@ -336,7 +336,7 @@ export const featuredProjects: Project[] = [
 		shortDescription:
 			'Simulador computacional que traduce reglas operativas, restricciones de asignación y dinámica de oferta y demanda de un esquema cambiario en una interfaz analítica.',
 		fullOverview:
-			'Este proyecto traslada el método de modelado cuantitativo de la Licenciatura en Física (UCV) a la simulación de un sistema reglado. Permite variar condiciones iniciales para observar estabilidad, cuellos de botella y trayectorias por ciclo.',
+			'Este proyecto aplica modelado cuantitativo y lógica discreta a la simulación de un sistema económico reglado. Permite variar condiciones iniciales para observar estabilidad, cuellos de botella y trayectorias por ciclo.',
 		architectureDetails:
 			'Motor por ciclos discretos que combina reglas deterministas y perturbaciones acotadas sobre oferta, demanda y tasas de referencia, registrando variables de estado en cada iteración para graficar su evolución.',
 		role: 'Arquitecto del Modelo & Desarrollador',
@@ -350,7 +350,7 @@ export const featuredProjects: Project[] = [
 			'Traducción de restricciones normativas y matemáticas en reglas de transición verificables.',
 			'Flujo algorítmico inspeccionable por etapas dentro de esta vista interna.',
 			'Análisis comparativo de sensibilidad al variar parámetros de oferta, demanda y liquidez.',
-			'Puente directo entre modelado científico en la UCV y software analítico.'
+			'Puente práctico entre pensamiento analítico, simulación y software interactivo.'
 		],
 		internalModules: [
 			{
@@ -382,9 +382,9 @@ export const featuredProjects: Project[] = [
 		accessType: 'explanatory',
 		featuredBadge: 'Uso Privado · iOS + Supabase',
 		shortDescription:
-			'Sistema privado construido para gestionar mi carrera de Física en la UCV: sincroniza Supabase en tiempo real, guías de estudio en LaTeX, bloques Pomodoro y widgets en la pantalla de inicio de iPhone.',
+			'Sistema privado construido para organizar mi inicio en Física en la UCV: sincroniza Supabase en tiempo real, guías de estudio en LaTeX, bloques Pomodoro y widgets en la pantalla de inicio de iPhone.',
 		fullOverview:
-			'Diseñado para uso diario en la Facultad de Ciencias de la UCV. Centraliza ponderaciones de materias, calendario de evaluaciones, descomposición de guías de estudio con IA y consulta rápida desde iOS sin abrir el navegador.',
+			'Diseñado para uso diario desde el primer semestre en la Facultad de Ciencias de la UCV. Centraliza ponderaciones de materias, calendario de evaluaciones, descomposición de guías de estudio con IA y consulta rápida desde iOS sin abrir el navegador.',
 		architectureDetails:
 			'Backend sobre Supabase (PostgreSQL + API REST) conectado a la aplicación web de estudio y a un widget nativo en iOS vía Scriptable. Procesa contenidos mediante una cola de IA para generar material estructurado en 7 pilares con notación LaTeX.',
 		role: 'Arquitecto y Desarrollador Único',
@@ -494,20 +494,19 @@ export const teamAndResearchData: TeamAndResearchItem[] = [
 		imageCaption: 'Equipo de The Last Endo en Kurios Competition 2026 — Categoría U-Code'
 	},
 	{
-		id: 'chemistry-experimental-study',
-		title: 'Estudio Experimental de Química (6 Meses)',
-		context: 'Investigación Científica Colaborativa',
-		role: 'Co-investigador & Diseño Experimental',
-		period: '6 meses',
+		id: 'mova-vision-project',
+		title: 'MOVA — Visión Artificial y Accesibilidad',
+		context: 'IA en Tiempo Real & Ingeniería de Producto',
+		role: 'Creador y Desarrollador Principal',
+		period: 'Proyecto Activo',
 		summary:
-			'Seguimiento experimental de cambios físicos y químicos en alimentos tras su fecha de vencimiento, integrando instrumentación eléctrica y análisis sensorial sistemático.',
-		collaborators: ['Pablo Guevara', 'Fabiana Holder', 'María Fernanda Valderrama'],
+			'Aplicación multiplataforma diseñada para interpretar lengua de señas en tiempo real directamente desde la cámara del dispositivo, combinando MediaPipe (WASM/WebGL) con un motor propio de álgebra vectorial (VectorMath.js).',
 		methods: [
-			'Pruebas sensoriales estructuradas con escala hedónica de 5 puntos',
-			'Instrumentación experimental con baterías y registro longitudinal de 6 meses'
+			'Tracking biomecánico de 21 nodos por mano a 60 FPS sin depender de servidores externos',
+			'Normalización geométrica invariante a escala y empaquetado móvil híbrido con CapacitorJS'
 		],
-		imageUrl: '/images/teams/research-chemistry-01.webp',
-		imageCaption: 'Equipo experimental junto a Pablo Guevara, Fabiana Holder y María Fernanda Valderrama'
+		imageUrl: '/images/projects/mova/cover.webp',
+		imageCaption: 'MOVA — Interpretación de lengua de señas con visión artificial en tiempo real'
 	}
 ];
 
@@ -522,6 +521,17 @@ export const verifiableProofData: VerifiableProofItem[] = [
 			'Premio obtenido con The Last Endo tras coordinar el desarrollo del código y defender la solución frente al jurado evaluador.',
 		actionLabel: 'Ver caso The Last Endo',
 		actionHref: '/proyectos/the-last-endo'
+	},
+	{
+		id: 'proof-mova',
+		kind: 'IA & Visión Artificial',
+		title: 'MOVA — Interpretación de Lengua de Señas',
+		entity: 'Proyecto Propio · Edge AI Multiplataforma',
+		evidence: 'MediaPipe HandLandmarker (WASM/WebGL) + VectorMath.js a 60 FPS',
+		summary:
+			'Sistema en tiempo real capaz de rastrear 21 nodos por mano y normalizar ángulos articulares directamente en navegador y dispositivo móvil.',
+		actionLabel: 'Ver caso MOVA',
+		actionHref: '/proyectos/mova'
 	},
 	{
 		id: 'proof-girasol',
@@ -542,15 +552,6 @@ export const verifiableProofData: VerifiableProofItem[] = [
 		evidence: 'Registro N° 000427 · 7 de noviembre de 2026',
 		summary:
 			'Certificación teórico-práctica en comunicación efectiva y argumentación dictada en la Ciudad Universitaria de Caracas.'
-	},
-	{
-		id: 'proof-research',
-		kind: 'Investigación en Equipo',
-		title: 'Estudio Experimental en Química',
-		entity: 'Investigación colaborativa de 6 meses',
-		evidence: 'Escala hedónica (5 pts) + instrumentación con baterías',
-		summary:
-			'Análisis longitudinal junto a Pablo Guevara, Fabiana Holder y María Fernanda Valderrama sobre deterioro físico-químico en alimentos.'
 	}
 ];
 
@@ -559,39 +560,47 @@ export const recommendationsData: RecommendationItem[] = [];
 
 export const personalTouchesData: PersonalTouchItem[] = [
 	{
-		id: 'cuatro-venezolano',
-		title: 'Música y Cuatro Venezolano',
-		tag: 'Acústica · Afinación Cambur Pintón',
+		id: 'google-ai-ecosystem',
+		title: 'Ecosistema de IA de Google',
+		tag: 'Uso Profesional · Productividad & Dev',
 		description:
-			'Toco el Cuatro Venezolano en afinación estándar Cambur Pintón, creando arreglos fingerstyle propios de bandas sonoras de videojuegos (como The Last of Us) y pop.',
-		details: ['Cambur Pintón', 'Arreglos fingerstyle', 'Bandas sonoras']
+			'Dominio práctico y profesional del ecosistema de inteligencia artificial de Google (Gemini, Google AI Studio y flujos agénticos) aplicado a ingeniería de software, estudio universitario y automatización.',
+		details: ['Gemini & AI Studio', 'Flujos agénticos', 'Prototipado ágil']
 	},
 	{
-		id: 'liga-cigarra',
-		title: 'Deporte y Liga Cigarra',
-		tag: 'Organización · Fútbol 7',
+		id: 'capcut-editing',
+		title: 'Edición Básica de Video en CapCut',
+		tag: 'Audiovisual · CapCut',
 		description:
-			'Organizo la Liga Cigarra, un torneo local de fútbol 7 entre amigos: coordinación de equipos, calendario y logística fuera de la pantalla.',
-		details: ['Organizador Liga Cigarra', 'Fútbol 7', 'Gestión de grupos']
+			'Edición ágil y limpia en CapCut para demos de software, presentaciones de proyectos y piezas cortas de divulgación (@santi.arm_dev).',
+		details: ['CapCut', 'Demos técnicas', 'Ritmo y claridad']
+	},
+	{
+		id: 'sport-music',
+		title: 'Fútbol Ocasional y Cuatro',
+		tag: 'Tiempo Libre · Balance',
+		description:
+			'Juego fútbol de manera ocasional para despejarme y mantenerme activo. En mis ratos libres también estoy aprendiendo a tocar el Cuatro Venezolano desde nivel principiante.',
+		details: ['Fútbol ocasional', 'Cuatro (principiante)', 'Desconexión activa']
 	}
 ];
 
 export const videoEditingData: VideoEditReelItem[] = [
 	{
 		id: 'tech-devlog-cut',
-		title: 'Showreels y Demos de Software (@santi.arm_dev)',
-		focus: 'Cortes dinámicos y sincronización rítmica',
+		title: 'Demos de Software en CapCut (@santi.arm_dev)',
+		focus: 'Edición básica ágil y explicación directa',
 		description:
-			'Edición orientada a retención visual, ritmo musical y explicación directa de interfaces y código sin relleno.',
+			'Edición limpia en CapCut orientada a mostrar interfaces, avances de código y demos cortas de forma clara y directa.',
 		duration: '00:45',
 		videoUrl: '/videos/reels/tech-devlog-cut.mp4'
 	},
 	{
 		id: 'pitch-visual-support',
-		title: 'Piezas Visuales para Pitch y Divulgación',
-		focus: 'Narrativa técnica y montaje de gameplay',
+		title: 'Soporte Visual para Presentaciones y Pitch',
+		focus: 'Montaje de gameplay y demos en vivo',
 		description:
-			'Montaje de clips de gameplay, demos en tiempo real y soporte visual limpio para defensas técnicas frente a jurados.',
+			'Recortes de gameplay, transiciones sobrias y piezas visuales preparadas en CapCut para respaldar presentaciones técnicas.',
 		duration: '01:10',
 		videoUrl: '/videos/reels/pitch-visual-support.mp4'
 	}
@@ -611,13 +620,13 @@ export const stackGroupsData: StackGroup[] = [
 	},
 	{
 		id: 'ai-vision',
-		title: 'IA & Visión Artificial',
-		description: 'Inferencia en el navegador con normalización geométrica en tiempo real.',
+		title: 'IA, Ecosistema Google & Visión',
+		description: 'Uso profesional de IA de Google e inferencia de visión artificial en navegador.',
 		items: [
+			{ name: 'Ecosistema de IA de Google', level: 'Uso profesional · Gemini & AI Studio' },
 			{ name: 'MediaPipe HandLandmarker', level: 'WASM / WebGL 60 FPS' },
 			{ name: 'Álgebra Vectorial (VectorMath.js)', level: 'Invariancia de escala' },
-			{ name: 'Deconstrucción con IA', level: 'Flujos de estudio' },
-			{ name: 'Edge AI UX', level: 'Baja latencia' }
+			{ name: 'Flujos Agénticos & Automatización', level: 'Productividad y estudio' }
 		]
 	},
 	{
@@ -633,13 +642,13 @@ export const stackGroupsData: StackGroup[] = [
 	},
 	{
 		id: 'physics-comms',
-		title: 'Física, Python & Comunicación',
-		description: 'Modelado matemático en la UCV, oratoria persuasiva y edición audiovisual.',
+		title: 'Física UCV, Python & Comunicación',
+		description: 'Estudiante de 1er semestre en la UCV, oratoria persuasiva y edición básica en CapCut.',
 		items: [
 			{ name: 'Python (Cert. Internacional)', level: 'Algoritmos y simulación' },
-			{ name: 'Física UCV & LaTeX', level: 'Modelado cuantitativo' },
+			{ name: 'Física UCV (1er Semestre) & LaTeX', level: 'Formación universitaria inicial' },
 			{ name: 'Oratoria y Persuasión (UCV)', level: 'CEP FACES · N° 000427' },
-			{ name: 'Edición de Video', level: 'Cortes y divulgación' }
+			{ name: 'CapCut (Edición básica)', level: 'Demos y clips cortos' }
 		]
 	}
 ];

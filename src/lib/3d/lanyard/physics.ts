@@ -20,10 +20,10 @@ export interface LanyardPhysicsInput {
 
 export const LANYARD_CONSTANTS = {
 	anchorX: 0,
-	anchorY: 3.55,
+	anchorY: 4.35,
 	equilibriumX: 0,
-	equilibriumY: -0.18,
-	clipOffsetY: 1.62
+	equilibriumY: -0.32,
+	clipOffsetY: 1.58
 } as const;
 
 export function createInitialPhysicsState(): LanyardPhysicsState {

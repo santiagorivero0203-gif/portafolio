@@ -10,7 +10,9 @@
 	<div class="container">
 		<header class="section-header" use:reveal>
 			<span class="mono-label">Respaldo verificable</span>
-			<h2 class="heading-lg">Hechos documentados y entornos reales</h2>
+			<h2 class="heading-lg">
+				Hechos documentados y <em class="serif-accent">entornos reales</em>
+			</h2>
 			<p class="section-lead">
 				Evidencia concreta de competencias, entregas comerciales y formación acreditada.
 			</p>

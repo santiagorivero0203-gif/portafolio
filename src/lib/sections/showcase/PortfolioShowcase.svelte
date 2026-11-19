@@ -71,7 +71,9 @@
 		<div class="showcase-header" use:reveal>
 			<div class="header-copy">
 				<span class="mono-label">Portafolio</span>
-				<h2 class="heading-lg">Proyectos, credenciales e ingeniería</h2>
+				<h2 class="heading-lg">
+					Proyectos, credenciales e <em class="serif-accent">ingeniería</em>
+				</h2>
 				<p class="section-lead">
 					Seis proyectos entre visión artificial, videojuegos 2D, sistemas comerciales,
 					modelado discreto y herramientas académicas privadas.

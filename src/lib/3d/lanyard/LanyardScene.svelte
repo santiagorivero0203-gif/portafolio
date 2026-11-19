@@ -123,20 +123,15 @@
 	});
 </script>
 
-<T.PerspectiveCamera makeDefault position={[0, 0.25, 7.2]} fov={38} />
+<T.PerspectiveCamera makeDefault position={[0, 0.22, 6.65]} fov={36} />
 
-<T.AmbientLight intensity={1.35} />
-<T.DirectionalLight position={[4, 6, 6]} intensity={1.85} color="#F8FAFC" />
-<T.DirectionalLight position={[-4, -2, 4]} intensity={0.75} color="#3B82F6" />
+<T.AmbientLight intensity={1.75} />
+<T.DirectionalLight position={[3.5, 5.5, 7]} intensity={1.45} color="#FFFFFF" />
+<T.DirectionalLight position={[-4, -2, 5]} intensity={0.65} color="#60A5FA" />
 
-<T.Mesh bind:ref={strapRef} position={[0, 1.8, -0.02]}>
-	<T.BoxGeometry args={[0.24, 1, 0.025]} />
-	<T.MeshStandardMaterial color="#1E3A8A" roughness={0.65} metalness={0.15} />
-</T.Mesh>
-
-<T.Mesh position={[LANYARD_CONSTANTS.anchorX, LANYARD_CONSTANTS.anchorY - 0.12, -0.02]}>
-	<T.CylinderGeometry args={[0.09, 0.09, 0.08, 20]} />
-	<T.MeshStandardMaterial color="#64748B" metalness={0.75} roughness={0.25} />
+<T.Mesh bind:ref={strapRef} position={[0, 2.2, -0.02]}>
+	<T.BoxGeometry args={[0.26, 1, 0.024]} />
+	<T.MeshStandardMaterial color="#1D4ED8" roughness={0.62} metalness={0.12} />
 </T.Mesh>
 
 <T.Group
@@ -177,8 +172,8 @@
 				map={frontTexture}
 				transparent={true}
 				alphaTest={0.05}
-				roughness={0.35}
-				metalness={0.08}
+				roughness={0.28}
+				metalness={0.05}
 			/>
 		</T.Mesh>
 	{/if}
@@ -190,8 +185,8 @@
 				map={backTexture}
 				transparent={true}
 				alphaTest={0.05}
-				roughness={0.35}
-				metalness={0.08}
+				roughness={0.28}
+				metalness={0.05}
 			/>
 		</T.Mesh>
 	{/if}

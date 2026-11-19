@@ -113,7 +113,6 @@
 			onclick={() => navigateTo('inicio')}
 			aria-label="Ir al inicio"
 		>
-			<span class="brand-dot" aria-hidden="true"></span>
 			<span class="brand-name">SR</span>
 		</button>
 
@@ -213,26 +212,18 @@
 	.brand-badge {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.45rem;
-		padding: 0.42rem 0.72rem;
+		padding: 0.42rem 0.82rem;
 		border-radius: var(--radius-pill);
 		font-family: var(--font-display);
-		font-weight: 700;
-		font-size: 0.84rem;
-		letter-spacing: 0.06em;
+		font-weight: 800;
+		font-size: 0.9rem;
+		letter-spacing: 0.04em;
 		color: var(--text-main);
 		transition: background-color 0.25s ease;
 
 		&:hover {
 			background: var(--surface-subtle);
 		}
-	}
-
-	.brand-dot {
-		width: 7px;
-		height: 7px;
-		border-radius: 50%;
-		background: var(--accent-mova-light);
 	}
 
 	.nav-track {

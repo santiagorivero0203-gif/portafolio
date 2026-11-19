@@ -7,7 +7,6 @@
 
 	let statsBandEl = $state<HTMLDivElement | undefined>(undefined);
 	let projectsDisplay = $state(6);
-	let averageDisplay = $state('17.84/20');
 	let animatedOnce = false;
 
 	$effect(() => {
@@ -25,12 +24,10 @@
 					const t = Math.min(1, (now - start) / duration);
 					const eased = 1 - Math.pow(1 - t, 3);
 					projectsDisplay = Math.max(1, Math.round(eased * 6));
-					averageDisplay = `${(eased * 17.84).toFixed(2)}/20`;
 					if (t < 1) {
 						requestAnimationFrame(frame);
 					} else {
 						projectsDisplay = 6;
-						averageDisplay = '17.84/20';
 					}
 				};
 				requestAnimationFrame(frame);
@@ -48,7 +45,9 @@
 	<div class="container">
 		<header class="section-header" use:reveal>
 			<span class="mono-label">Sobre mí</span>
-			<h2 class="heading-lg">Ciencia, código y comunicación</h2>
+			<h2 class="heading-lg">
+				Curiosidad científica, <em class="serif-accent">código</em> y criterio
+			</h2>
 		</header>
 
 		<div class="about-grid">
@@ -78,8 +77,6 @@
 							<strong class="figure-value">
 								{#if stat.id === 'projects-stat'}
 									{projectsDisplay}
-								{:else if stat.id === 'academic-stat'}
-									{averageDisplay}
 								{:else}
 									{stat.value}
 								{/if}

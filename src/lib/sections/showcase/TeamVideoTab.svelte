@@ -16,7 +16,7 @@
 
 <div class="team-video-panel" role="tabpanel" id="panel-team_video" aria-labelledby="tab-team_video">
 	<div class="team-block">
-		<h3 class="panel-heading">Equipos, Liderazgo e Investigación</h3>
+		<h3 class="panel-heading">Equipos, Liderazgo y Proyectos Clave</h3>
 		<div class="team-cards-grid">
 			{#each teamAndResearchData as team (team.id)}
 				<article class="team-card">
@@ -57,7 +57,7 @@
 
 	<div class="video-block">
 		<div class="video-header">
-			<h3 class="panel-heading">Edición de Video y Divulgación Visual</h3>
+			<h3 class="panel-heading">Edición Básica de Video en CapCut</h3>
 			<p class="video-summary">{santiagoProfile.videoEditingSummary}</p>
 		</div>
 

@@ -261,7 +261,11 @@
 	}
 
 	.detail-subtitle {
-		color: var(--text-muted);
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: clamp(1.2rem, 2vw, 1.55rem);
+		line-height: 1.32;
+		color: #dbeafe;
 	}
 
 	.detail-columns {
@@ -316,11 +320,11 @@
 	}
 
 	.feature-bullet {
-		margin-top: 0.5rem;
+		margin-top: 0.68rem;
 		flex-shrink: 0;
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
+		width: 10px;
+		height: 1.5px;
+		border-radius: 1px;
 		background: var(--accent-mova-light);
 	}
 

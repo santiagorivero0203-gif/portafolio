@@ -20,7 +20,7 @@
 </div>
 
 <div class="personal-block" use:reveal={{ delay: 0.16 }}>
-	<h3 class="mono-label block-label">Fuera del editor</h3>
+	<h3 class="mono-label block-label">Habilidades transversales e intereses</h3>
 	<div class="personal-list">
 		{#each personalTouchesData as touch (touch.id)}
 			<article class="personal-item">
@@ -101,12 +101,12 @@
 
 	.personal-list {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1.25rem;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.15rem;
 		border-top: 1px solid var(--border-hairline);
 		padding-top: 1.25rem;
 
-		@media (max-width: 640px) {
+		@media (max-width: 780px) {
 			grid-template-columns: 1fr;
 		}
 	}

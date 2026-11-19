@@ -22,7 +22,9 @@
 	<div class="container footer-box">
 		<div class="footer-copy">
 			<span class="mono-label">Contacto directo</span>
-			<h2 class="heading-lg footer-title">Hablemos de ingeniería, física o producto</h2>
+			<h2 class="heading-lg footer-title">
+				Hablemos de software, ciencia o <em class="serif-accent">producto</em>
+			</h2>
 			<p class="footer-meta">
 				{santiagoProfile.fullName} · {santiagoProfile.location} ·
 				<a href="mailto:{santiagoProfile.email}" class="inline-mail">{santiagoProfile.email}</a>

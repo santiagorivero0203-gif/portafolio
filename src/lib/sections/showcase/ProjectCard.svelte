@@ -142,9 +142,12 @@
 	}
 
 	.project-subtitle {
-		font-size: 0.86rem;
-		font-weight: 500;
-		color: var(--text-secondary);
+		font-family: var(--font-serif);
+		font-style: italic;
+		font-size: 1.04rem;
+		font-weight: 400;
+		line-height: 1.3;
+		color: #dbeafe;
 	}
 
 	.project-desc {
