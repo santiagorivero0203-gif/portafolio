@@ -1,20 +1,28 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import Media from '$lib/components/Media.svelte';
+	import Icon from "$lib/components/Icon.svelte";
+	import Media from "$lib/components/Media.svelte";
 	import {
 		santiagoProfile,
 		teamAndResearchData,
-		videoEditingData
-	} from '$lib/data/portfolioData';
+		videoEditingData,
+	} from "$lib/data/portfolioData";
 
-	let activeReelId = $state<string>(videoEditingData[0]?.id ?? 'tech-devlog-cut');
+	let activeReelId = $state<string>(
+		videoEditingData[0]?.id ?? "tech-devlog-cut",
+	);
 
 	const activeReel = $derived(
-		videoEditingData.find((item) => item.id === activeReelId) ?? videoEditingData[0]
+		videoEditingData.find((item) => item.id === activeReelId) ??
+			videoEditingData[0],
 	);
 </script>
 
-<div class="team-video-panel" role="tabpanel" id="panel-team_video" aria-labelledby="tab-team_video">
+<div
+	class="team-video-panel"
+	role="tabpanel"
+	id="panel-team_video"
+	aria-labelledby="tab-team_video"
+>
 	<div class="team-block">
 		<h3 class="panel-heading">Equipos, Liderazgo y Proyectos Clave</h3>
 		<div class="team-cards-grid">
@@ -32,13 +40,16 @@
 					</div>
 
 					<div class="team-info">
-						<span class="team-meta">{team.period} · {team.role}</span>
+						<span class="team-meta"
+							>{team.period} · {team.role}</span
+						>
 						<h4>{team.title}</h4>
 						<p>{team.summary}</p>
 
 						{#if team.collaborators?.length}
 							<p class="team-collabs">
-								<strong>Equipo:</strong> {team.collaborators.join(', ')}
+								<strong>Equipo:</strong>
+								{team.collaborators.join(", ")}
 							</p>
 						{/if}
 
@@ -66,7 +77,7 @@
 				{#if activeReel}
 					<div class="reel-player">
 						<Media
-							src={activeReel.videoUrl ?? ''}
+							src={activeReel.videoUrl ?? ""}
 							alt={activeReel.title}
 							kind="video"
 							controls={true}
@@ -74,12 +85,16 @@
 						>
 							{#snippet fallback()}
 								<div class="reel-fallback">
-									<span class="showreel-badge">{santiagoProfile.tiktokHandle} · Showreel</span>
+									<span class="showreel-badge"
+										>{santiagoProfile.tiktokHandle} · Showreel</span
+									>
 									<h4>{activeReel.title}</h4>
 									<p>{activeReel.description}</p>
 									<div class="showreel-meta">
 										<span>Enfoque: {activeReel.focus}</span>
-										<span>Duración ref.: {activeReel.duration}</span>
+										<span
+											>Duración ref.: {activeReel.duration}</span
+										>
 									</div>
 								</div>
 							{/snippet}

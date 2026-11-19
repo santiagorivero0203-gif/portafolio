@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import { santiagoProfile } from '$lib/data/portfolioData';
-	import { magnetic } from '$lib/motion/magnetic';
+	import Icon from "$lib/components/Icon.svelte";
+	import { santiagoProfile } from "$lib/data/portfolioData";
+	import { magnetic } from "$lib/motion/magnetic";
 
 	let copied = $state(false);
 
@@ -23,21 +23,34 @@
 		<div class="footer-copy">
 			<span class="mono-label">Contacto directo</span>
 			<h2 class="heading-lg footer-title">
-				Hablemos de software, ciencia o <em class="serif-accent">producto</em>
+				Hablemos de software, ciencia o <em class="serif-accent"
+					>producto</em
+				>
 			</h2>
 			<p class="footer-meta">
 				{santiagoProfile.fullName} · {santiagoProfile.location} ·
-				<a href="mailto:{santiagoProfile.email}" class="inline-mail">{santiagoProfile.email}</a>
+				<a href="mailto:{santiagoProfile.email}" class="inline-mail"
+					>{santiagoProfile.email}</a
+				>
 			</p>
 		</div>
 
 		<div class="footer-actions">
-			<button type="button" class="contact-pill" use:magnetic onclick={copyEmail}>
-				<Icon name={copied ? 'check' : 'copy'} size={15} />
-				<span>{copied ? 'Correo copiado' : 'Copiar correo'}</span>
+			<button
+				type="button"
+				class="contact-pill"
+				use:magnetic
+				onclick={copyEmail}
+			>
+				<Icon name={copied ? "check" : "copy"} size={15} />
+				<span>{copied ? "Correo copiado" : "Copiar correo"}</span>
 			</button>
 
-			<a class="contact-pill secondary" use:magnetic href="mailto:{santiagoProfile.email}">
+			<a
+				class="contact-pill secondary"
+				use:magnetic
+				href="mailto:{santiagoProfile.email}"
+			>
 				<span>Enviar correo</span>
 				<Icon name="arrow-right" size={15} />
 			</a>

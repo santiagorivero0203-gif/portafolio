@@ -1,10 +1,10 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import Media from '$lib/components/Media.svelte';
-	import ProductivityEcosystemDiagram from '$lib/sections/showcase/ProductivityEcosystemDiagram.svelte';
-	import ProjectDetailSidebar from '$lib/sections/showcase/ProjectDetailSidebar.svelte';
-	import SimadiFlowDiagram from '$lib/sections/showcase/SimadiFlowDiagram.svelte';
-	import type { PageData } from './$types';
+	import Icon from "$lib/components/Icon.svelte";
+	import Media from "$lib/components/Media.svelte";
+	import ProductivityEcosystemDiagram from "$lib/sections/showcase/ProductivityEcosystemDiagram.svelte";
+	import ProjectDetailSidebar from "$lib/sections/showcase/ProjectDetailSidebar.svelte";
+	import SimadiFlowDiagram from "$lib/sections/showcase/SimadiFlowDiagram.svelte";
+	import type { PageData } from "./$types";
 
 	interface Props {
 		data: PageData;
@@ -61,17 +61,19 @@
 				</section>
 
 				<section class="detail-block">
-					<h2 class="mono-label block-heading">Arquitectura e ingeniería</h2>
+					<h2 class="mono-label block-heading">
+						Arquitectura e ingeniería
+					</h2>
 					<p class="block-text">{project.architectureDetails}</p>
 				</section>
 
-				{#if project.id === 'simulacion-simadi'}
+				{#if project.id === "simulacion-simadi"}
 					<section class="detail-block">
 						<SimadiFlowDiagram />
 					</section>
 				{/if}
 
-				{#if project.id === 'app-productividad'}
+				{#if project.id === "app-productividad"}
 					<section class="detail-block">
 						<ProductivityEcosystemDiagram />
 					</section>
@@ -82,7 +84,8 @@
 					<ul class="features-list">
 						{#each project.keyFeatures as feature}
 							<li>
-								<span class="feature-bullet" aria-hidden="true"></span>
+								<span class="feature-bullet" aria-hidden="true"
+								></span>
 								<span>{feature}</span>
 							</li>
 						{/each}
@@ -91,7 +94,9 @@
 
 				{#if project.internalModules?.length}
 					<section class="detail-block">
-						<h2 class="mono-label block-heading">Módulos internos</h2>
+						<h2 class="mono-label block-heading">
+							Módulos internos
+						</h2>
 						<div class="modules-grid">
 							{#each project.internalModules as mod (mod.name)}
 								<div class="module-card">
@@ -105,14 +110,20 @@
 
 				{#if project.teamPhotos?.length}
 					<section class="detail-block">
-						<h2 class="mono-label block-heading">Equipo y liderazgo</h2>
+						<h2 class="mono-label block-heading">
+							Equipo y liderazgo
+						</h2>
 						<div class="team-grid">
 							{#each project.teamPhotos as photo}
 								<figure class="team-figure">
 									<button
 										type="button"
 										class="zoom-trigger"
-										onclick={() => sidebarRef?.openZoom(photo.url, photo.caption)}
+										onclick={() =>
+											sidebarRef?.openZoom(
+												photo.url,
+												photo.caption,
+											)}
 									>
 										<div class="figure-frame">
 											<Media

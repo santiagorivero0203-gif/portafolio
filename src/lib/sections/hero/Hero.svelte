@@ -1,9 +1,9 @@
 <script lang="ts">
-	import HeroLanyard3D from '$lib/3d/lanyard/HeroLanyard3D.svelte';
-	import Icon from '$lib/components/Icon.svelte';
-	import { santiagoProfile } from '$lib/data/portfolioData';
-	import { scrollToTarget } from '$lib/motion/lenis';
-	import { observeReducedMotion } from '$lib/motion/reducedMotion.svelte';
+	import HeroLanyard3D from "$lib/3d/lanyard/HeroLanyard3D.svelte";
+	import Icon from "$lib/components/Icon.svelte";
+	import { santiagoProfile } from "$lib/data/portfolioData";
+	import { scrollToTarget } from "$lib/motion/lenis";
+	import { observeReducedMotion } from "$lib/motion/reducedMotion.svelte";
 
 	interface Props {
 		onOpenCredentials?: () => void;
@@ -14,7 +14,7 @@
 	const roles = santiagoProfile.dynamicRoles;
 
 	let roleIndex = $state(0);
-	let displayedRole = $state(roles[0] ?? '');
+	let displayedRole = $state(roles[0] ?? "");
 	let isDeleting = $state(false);
 	let reducedMotion = $state(false);
 
@@ -22,7 +22,7 @@
 		return observeReducedMotion((reduced) => {
 			reducedMotion = reduced;
 			if (reduced) {
-				displayedRole = roles[0] ?? '';
+				displayedRole = roles[0] ?? "";
 			}
 		});
 	});
@@ -31,13 +31,13 @@
 		if (!roles.length || reducedMotion) return;
 
 		let timeoutId: ReturnType<typeof setTimeout>;
-		const currentFull = roles[roleIndex] ?? '';
+		const currentFull = roles[roleIndex] ?? "";
 
 		if (!isDeleting && displayedRole === currentFull) {
 			timeoutId = setTimeout(() => {
 				isDeleting = true;
 			}, 2200);
-		} else if (isDeleting && displayedRole === '') {
+		} else if (isDeleting && displayedRole === "") {
 			isDeleting = false;
 			roleIndex = (roleIndex + 1) % roles.length;
 		} else {
@@ -55,12 +55,12 @@
 	});
 
 	function goToProjects() {
-		scrollToTarget('#proyectos', -88);
+		scrollToTarget("#proyectos", -88);
 	}
 
 	function goToCredentials() {
 		onOpenCredentials?.();
-		scrollToTarget('#proyectos', -88);
+		scrollToTarget("#proyectos", -88);
 	}
 </script>
 
@@ -86,18 +86,28 @@
 			</div>
 
 			<h1 class="display-xl hero-title">
-				Ingeniería de software, física y <em class="serif-accent">comunicación clara.</em>
+				Ingeniería de software, física y <em class="serif-accent"
+					>comunicación clara.</em
+				>
 			</h1>
 
 			<p class="body-lg hero-description">{santiagoProfile.heroBio}</p>
 
 			<div class="hero-actions">
-				<button type="button" class="btn-primary" onclick={goToProjects}>
+				<button
+					type="button"
+					class="btn-primary"
+					onclick={goToProjects}
+				>
 					<span>Explorar proyectos</span>
 					<Icon name="arrow-right" size={16} />
 				</button>
 
-				<button type="button" class="btn-secondary" onclick={goToCredentials}>
+				<button
+					type="button"
+					class="btn-secondary"
+					onclick={goToCredentials}
+				>
 					<Icon name="award" size={16} />
 					<span>Ver credenciales</span>
 				</button>
@@ -113,7 +123,6 @@
 <style lang="scss">
 	.hero-section {
 		position: relative;
-		z-index: var(--z-base);
 		min-height: 100svh;
 		display: flex;
 		align-items: flex-start;
@@ -134,13 +143,15 @@
 	}
 
 	.hero-copy {
+		position: relative;
+		z-index: 2;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 		padding-top: clamp(7.5rem, 13vw, 9.75rem);
 
 		@media (max-width: 960px) {
-			padding-top: 0.75rem;
+			padding-top: 0.5rem;
 		}
 	}
 
@@ -274,10 +285,12 @@
 		width: 100%;
 		max-width: 460px;
 		margin-inline: auto;
+		padding-top: 6.2rem;
 
 		@media (max-width: 960px) {
 			order: -1;
 			max-width: 390px;
+			padding-top: 4.9rem;
 		}
 	}
 </style>

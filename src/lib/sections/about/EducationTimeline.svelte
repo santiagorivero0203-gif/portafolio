@@ -1,6 +1,9 @@
 <script lang="ts">
-	import { personalTouchesData, santiagoProfile } from '$lib/data/portfolioData';
-	import { reveal } from '$lib/motion/reveal';
+	import {
+		personalTouchesData,
+		santiagoProfile,
+	} from "$lib/data/portfolioData";
+	import { reveal } from "$lib/motion/reveal";
 </script>
 
 <div class="timeline-block" use:reveal={{ delay: 0.12 }}>
@@ -20,7 +23,9 @@
 </div>
 
 <div class="personal-block" use:reveal={{ delay: 0.16 }}>
-	<h3 class="mono-label block-label">Habilidades transversales e intereses</h3>
+	<h3 class="mono-label block-label">
+		Habilidades transversales e intereses
+	</h3>
 	<div class="personal-list">
 		{#each personalTouchesData as touch (touch.id)}
 			<article class="personal-item">

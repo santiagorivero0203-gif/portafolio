@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
 	import { Canvas } from '@threlte/core';
+	import * as THREE from 'three';
 	import Icon from '$lib/components/Icon.svelte';
 	import { santiagoProfile } from '$lib/data/portfolioData';
 	import { observeReducedMotion } from '$lib/motion/reducedMotion.svelte';
@@ -8,12 +9,16 @@
 	interface LanyardProps {
 		paused?: boolean;
 		flipped?: boolean;
-		stageEl?: HTMLElement | undefined;
+		overlayEl?: HTMLElement | undefined;
+		slotEl?: HTMLElement | undefined;
+		onDragChange?: (dragging: boolean) => void;
 	}
 
-	let stageEl = $state<HTMLDivElement | undefined>(undefined);
+	let slotEl = $state<HTMLDivElement | undefined>(undefined);
+	let overlayEl = $state<HTMLDivElement | undefined>(undefined);
 	let LanyardSceneComponent = $state<Component<LanyardProps> | null>(null);
 	let isVisible = $state(true);
+	let isDragging = $state(false);
 	let flipped = $state(false);
 	let reducedMotion = $state(false);
 	let webglSupported = $state(true);
@@ -45,7 +50,7 @@
 		}
 
 		let observer: IntersectionObserver | undefined;
-		if (stageEl) {
+		if (overlayEl) {
 			observer = new IntersectionObserver(
 				(entries) => {
 					const entry = entries[0];
@@ -53,42 +58,54 @@
 						isVisible = entry.isIntersecting;
 					}
 				},
-				{ threshold: 0.05 }
+				{ threshold: 0.02 }
 			);
-			observer.observe(stageEl);
+			observer.observe(overlayEl);
 		}
-
-		const resetCursor = () => {
-			document.body.style.cursor = 'default';
-		};
-		window.addEventListener('pointerup', resetCursor);
 
 		return () => {
 			active = false;
 			stopObserve();
 			observer?.disconnect();
-			window.removeEventListener('pointerup', resetCursor);
-			document.body.style.cursor = 'default';
 		};
 	});
 
 	const showInteractive3D = $derived(
 		!reducedMotion && webglSupported && LanyardSceneComponent !== null
 	);
+	const lanyardDpr =
+		typeof window !== 'undefined' ? Math.min(Math.max(window.devicePixelRatio || 1, 2), 2.5) : 2;
 </script>
 
+<!-- Full-hero unobstructed overlay layer: hangs from y=0 of page and floats ABOVE navbar and text -->
+<div
+	class="lanyard-overlay"
+	class:dragging={isDragging}
+	bind:this={overlayEl}
+	aria-hidden="true"
+>
+	{#if showInteractive3D && LanyardSceneComponent}
+		<Canvas dpr={lanyardDpr} toneMapping={THREE.NoToneMapping}>
+			<LanyardSceneComponent
+				paused={!isVisible}
+				{flipped}
+				{overlayEl}
+				{slotEl}
+				onDragChange={(dragging) => (isDragging = dragging)}
+			/>
+		</Canvas>
+	{/if}
+</div>
+
+<!-- Layout anchor inside Hero right column / mobile top slot -->
 <div class="lanyard-shell">
 	<div
-		class="lanyard-stage"
-		bind:this={stageEl}
+		class="lanyard-slot-anchor"
+		bind:this={slotEl}
 		role="region"
 		aria-label="Credencial interactiva de Santiago Rivero"
 	>
-		{#if showInteractive3D && LanyardSceneComponent}
-			<Canvas dpr={[1, 2.5]}>
-				<LanyardSceneComponent paused={!isVisible} {flipped} {stageEl} />
-			</Canvas>
-		{:else}
+		{#if !showInteractive3D}
 			<div class="static-badge" class:flipped>
 				<div class="static-strap" aria-hidden="true"></div>
 				<div class="static-clasp" aria-hidden="true"></div>
@@ -127,7 +144,7 @@
 
 	<div class="lanyard-controls">
 		<span class="physics-hint">
-			{showInteractive3D ? 'Arrastra el carnet' : 'Santiago Rivero · UCV'}
+			{showInteractive3D ? 'Arrastra el carnet por toda la pantalla' : 'Santiago Rivero · UCV'}
 		</span>
 		<button type="button" class="flip-btn" onclick={() => (flipped = !flipped)}>
 			<Icon name="flip" size={14} />
@@ -137,6 +154,22 @@
 </div>
 
 <style lang="scss">
+	.lanyard-overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: max(128svh, 960px);
+		z-index: 75;
+		pointer-events: none;
+
+		&.dragging {
+			pointer-events: auto;
+			user-select: none;
+			cursor: grabbing;
+		}
+	}
+
 	.lanyard-shell {
 		width: 100%;
 		display: flex;
@@ -144,18 +177,13 @@
 		align-items: center;
 	}
 
-	.lanyard-stage {
-		position: relative;
+	.lanyard-slot-anchor {
 		width: 100%;
-		height: clamp(500px, 78svh, 660px);
-		background: transparent;
-		border: none;
-		border-radius: 0;
-		overflow: visible;
-		touch-action: none;
+		height: clamp(390px, 54svh, 470px);
+		pointer-events: none;
 
 		@media (max-width: 960px) {
-			height: clamp(410px, 56svh, 490px);
+			height: clamp(325px, 42svh, 380px);
 		}
 	}
 
@@ -167,11 +195,12 @@
 		align-items: center;
 		justify-content: flex-start;
 		padding-bottom: 1rem;
+		pointer-events: auto;
 	}
 
 	.static-strap {
 		width: 20px;
-		height: clamp(86px, 14vh, 140px);
+		height: clamp(64px, 10vh, 108px);
 		background: linear-gradient(180deg, #1d4ed8 0%, #2563eb 100%);
 	}
 
@@ -185,7 +214,7 @@
 	}
 
 	.static-card {
-		width: min(270px, 100%);
+		width: min(260px, 100%);
 		border-radius: 18px;
 		background: var(--bg-primary);
 		border: 1px solid var(--border-strong);
@@ -203,12 +232,12 @@
 	}
 
 	.static-body {
-		padding: 1.35rem 1.15rem;
+		padding: 1.25rem 1.1rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		text-align: center;
-		gap: 0.42rem;
+		gap: 0.4rem;
 
 		&.back {
 			align-items: flex-start;
@@ -217,23 +246,23 @@
 	}
 
 	.static-monogram {
-		width: 74px;
-		height: 74px;
-		border-radius: 18px;
+		width: 68px;
+		height: 68px;
+		border-radius: 16px;
 		display: grid;
 		place-items: center;
 		font-family: var(--font-display);
-		font-size: 1.65rem;
+		font-size: 1.5rem;
 		font-weight: 800;
 		background: var(--accent-mova-soft);
 		border: 1px solid var(--border-active);
 		color: var(--text-main);
-		margin-bottom: 0.35rem;
+		margin-bottom: 0.3rem;
 	}
 
 	.static-name {
 		font-family: var(--font-display);
-		font-size: 1.24rem;
+		font-size: 1.18rem;
 		font-weight: 700;
 		color: var(--text-main);
 	}
@@ -241,19 +270,19 @@
 	.static-role {
 		font-family: var(--font-serif);
 		font-style: italic;
-		font-size: 0.98rem;
+		font-size: 0.95rem;
 		color: #bfdbfe;
 	}
 
 	.static-degree {
-		font-size: 0.8rem;
+		font-size: 0.78rem;
 		color: var(--text-muted);
 	}
 
 	.static-identity {
 		width: 100%;
-		margin-top: 0.65rem;
-		padding: 0.7rem;
+		margin-top: 0.5rem;
+		padding: 0.65rem;
 		border-radius: 12px;
 		background: var(--accent-mova-soft);
 		border: 1px solid var(--border-active);
@@ -269,7 +298,7 @@
 
 		strong {
 			font-family: var(--font-display);
-			font-size: 0.86rem;
+			font-size: 0.84rem;
 			color: var(--text-main);
 		}
 	}
@@ -284,30 +313,32 @@
 		list-style: none;
 		display: flex;
 		flex-direction: column;
-		gap: 0.5rem;
-		font-size: 0.8rem;
+		gap: 0.45rem;
+		font-size: 0.78rem;
 		color: var(--text-secondary);
-		margin-top: 0.4rem;
+		margin-top: 0.35rem;
 	}
 
 	.lanyard-controls {
-		margin-top: -0.5rem;
+		position: relative;
+		z-index: 76;
+		margin-top: 0.4rem;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.85rem;
-		padding: 0.35rem 0.45rem 0.35rem 0.95rem;
+		gap: 0.75rem;
+		padding: 0.35rem 0.42rem 0.35rem 0.9rem;
 		border-radius: var(--radius-pill);
-		background: rgba(11, 17, 32, 0.72);
+		background: rgba(11, 17, 32, 0.78);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid var(--border-hairline);
-		z-index: 2;
+		pointer-events: auto;
 	}
 
 	.physics-hint {
 		font-family: var(--font-mono);
-		font-size: 0.73rem;
+		font-size: 0.71rem;
 		color: var(--text-muted);
 	}
 

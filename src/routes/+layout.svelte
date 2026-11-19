@@ -29,6 +29,5 @@
 <style lang="scss">
 	.page-shell {
 		position: relative;
-		z-index: var(--z-base);
 	}
 </style>

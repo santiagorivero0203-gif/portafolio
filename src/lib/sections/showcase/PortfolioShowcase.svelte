@@ -1,14 +1,18 @@
 <script lang="ts">
-	import { replaceState } from '$app/navigation';
-	import type { Certificate } from '$lib/data/portfolioData';
-	import { reveal } from '$lib/motion/reveal';
-	import CertificateLightbox from './CertificateLightbox.svelte';
-	import CredentialsTab from './CredentialsTab.svelte';
-	import ProjectsTab from './ProjectsTab.svelte';
-	import StackTab from './StackTab.svelte';
-	import TeamVideoTab from './TeamVideoTab.svelte';
+	import { replaceState } from "$app/navigation";
+	import type { Certificate } from "$lib/data/portfolioData";
+	import { reveal } from "$lib/motion/reveal";
+	import CertificateLightbox from "./CertificateLightbox.svelte";
+	import CredentialsTab from "./CredentialsTab.svelte";
+	import ProjectsTab from "./ProjectsTab.svelte";
+	import StackTab from "./StackTab.svelte";
+	import TeamVideoTab from "./TeamVideoTab.svelte";
 
-	export type ShowcaseTabId = 'projects' | 'certificates' | 'team_video' | 'stack';
+	export type ShowcaseTabId =
+		| "projects"
+		| "certificates"
+		| "team_video"
+		| "stack";
 
 	interface Props {
 		activeTab?: ShowcaseTabId;
@@ -16,21 +20,26 @@
 	}
 
 	const tabs: { id: ShowcaseTabId; label: string }[] = [
-		{ id: 'projects', label: 'Proyectos (6)' },
-		{ id: 'certificates', label: 'Certificados y premios' },
-		{ id: 'team_video', label: 'Equipos y edición' },
-		{ id: 'stack', label: 'Tech stack' }
+		{ id: "projects", label: "Proyectos (6)" },
+		{ id: "certificates", label: "Certificados y premios" },
+		{ id: "team_video", label: "Equipos y edición" },
+		{ id: "stack", label: "Tech stack" },
 	];
 
 	const validTabs = new Set<ShowcaseTabId>(tabs.map((t) => t.id));
 
-	let { activeTab = $bindable<ShowcaseTabId>('projects'), onTabChange }: Props = $props();
+	let {
+		activeTab = $bindable<ShowcaseTabId>("projects"),
+		onTabChange,
+	}: Props = $props();
 	let selectedCertificate = $state<Certificate | null>(null);
 	let tabEls = $state<Record<string, HTMLButtonElement | null>>({});
 
 	$effect(() => {
-		if (typeof window === 'undefined') return;
-		const urlTab = new URLSearchParams(window.location.search).get('tab') as ShowcaseTabId | null;
+		if (typeof window === "undefined") return;
+		const urlTab = new URLSearchParams(window.location.search).get(
+			"tab",
+		) as ShowcaseTabId | null;
 		if (urlTab && validTabs.has(urlTab)) {
 			activeTab = urlTab;
 		}
@@ -40,12 +49,12 @@
 		activeTab = tab;
 		onTabChange?.(tab);
 
-		if (typeof window !== 'undefined') {
+		if (typeof window !== "undefined") {
 			const url = new URL(window.location.href);
-			if (tab === 'projects') {
-				url.searchParams.delete('tab');
+			if (tab === "projects") {
+				url.searchParams.delete("tab");
 			} else {
-				url.searchParams.set('tab', tab);
+				url.searchParams.set("tab", tab);
 			}
 			replaceState(url, {});
 		}
@@ -53,10 +62,11 @@
 
 	function handleTabKeyDown(event: KeyboardEvent, index: number) {
 		let nextIndex = index;
-		if (event.key === 'ArrowRight') nextIndex = (index + 1) % tabs.length;
-		else if (event.key === 'ArrowLeft') nextIndex = (index - 1 + tabs.length) % tabs.length;
-		else if (event.key === 'Home') nextIndex = 0;
-		else if (event.key === 'End') nextIndex = tabs.length - 1;
+		if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+		else if (event.key === "ArrowLeft")
+			nextIndex = (index - 1 + tabs.length) % tabs.length;
+		else if (event.key === "Home") nextIndex = 0;
+		else if (event.key === "End") nextIndex = tabs.length - 1;
 		else return;
 
 		event.preventDefault();
@@ -72,15 +82,22 @@
 			<div class="header-copy">
 				<span class="mono-label">Portafolio</span>
 				<h2 class="heading-lg">
-					Proyectos, credenciales e <em class="serif-accent">ingeniería</em>
+					Proyectos, credenciales e <em class="serif-accent"
+						>ingeniería</em
+					>
 				</h2>
 				<p class="section-lead">
-					Seis proyectos entre visión artificial, videojuegos 2D, sistemas comerciales,
-					modelado discreto y herramientas académicas privadas.
+					Seis proyectos entre visión artificial, videojuegos 2D,
+					sistemas comerciales, modelado discreto y herramientas
+					académicas privadas.
 				</p>
 			</div>
 
-			<div class="tabs-bar" role="tablist" aria-label="Categorías del portafolio">
+			<div
+				class="tabs-bar"
+				role="tablist"
+				aria-label="Categorías del portafolio"
+			>
 				{#each tabs as tab, idx (tab.id)}
 					<button
 						type="button"
@@ -101,11 +118,13 @@
 			</div>
 		</div>
 
-		{#if activeTab === 'projects'}
+		{#if activeTab === "projects"}
 			<ProjectsTab />
-		{:else if activeTab === 'certificates'}
-			<CredentialsTab onSelectCertificate={(cert) => (selectedCertificate = cert)} />
-		{:else if activeTab === 'team_video'}
+		{:else if activeTab === "certificates"}
+			<CredentialsTab
+				onSelectCertificate={(cert) => (selectedCertificate = cert)}
+			/>
+		{:else if activeTab === "team_video"}
 			<TeamVideoTab />
 		{:else}
 			<StackTab />
