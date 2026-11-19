@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
-	import { Canvas } from '@threlte/core';
-	import { observeReducedMotion } from '$lib/motion/reducedMotion.svelte';
+	import type { Component } from "svelte";
+	import { Canvas } from "@threlte/core";
+	import { observeReducedMotion } from "$lib/motion/reducedMotion.svelte";
 
 	let SceneComponent = $state<Component | null>(null);
 	let reducedMotion = $state(false);
@@ -13,7 +13,7 @@
 
 		let active = true;
 		if (!reducedMotion && !SceneComponent) {
-			import('./StarfieldScene.svelte').then((mod) => {
+			import("./StarfieldScene.svelte").then((mod) => {
 				if (active) SceneComponent = mod.default;
 			});
 		}

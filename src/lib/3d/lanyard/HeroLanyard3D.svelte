@@ -142,7 +142,7 @@
 
 	<div class="lanyard-controls">
 		<span class="physics-hint">
-			{showInteractive3D ? 'Arrastra el carnet por toda la pantalla' : 'Santiago Rivero · UCV'}
+			{showInteractive3D ? 'Arrastra el carnet' : 'Santiago Rivero · UCV'}
 		</span>
 		<button type="button" class="flip-btn" onclick={() => (flipped = !flipped)}>
 			<Icon name="flip" size={14} />

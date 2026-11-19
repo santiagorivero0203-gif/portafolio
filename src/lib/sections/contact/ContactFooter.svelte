@@ -127,6 +127,17 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.65rem;
+
+		@media (max-width: 540px) {
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+
+			.contact-pill {
+				justify-content: center;
+				padding-inline: 0.85rem;
+			}
+		}
 	}
 
 	.contact-pill {

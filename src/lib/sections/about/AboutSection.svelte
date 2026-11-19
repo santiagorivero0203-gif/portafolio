@@ -131,6 +131,11 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
+
+		@media (min-width: 961px) {
+			position: sticky;
+			top: 6.25rem;
+		}
 	}
 
 	.portrait-stage {

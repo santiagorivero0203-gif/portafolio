@@ -170,8 +170,9 @@
 
 	.hero-identity {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.45rem 0.5rem;
 		font-family: var(--font-display);
 		font-size: 0.96rem;
 		font-weight: 600;
@@ -238,6 +239,17 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.85rem;
+		width: 100%;
+
+		@media (max-width: 480px) {
+			flex-direction: column;
+
+			.btn-primary,
+			.btn-secondary {
+				width: 100%;
+				justify-content: center;
+			}
+		}
 	}
 
 	.btn-primary {

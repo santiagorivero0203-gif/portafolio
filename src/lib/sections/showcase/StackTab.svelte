@@ -97,10 +97,16 @@
 			align-items: center;
 			justify-content: space-between;
 			gap: 0.75rem;
-			padding: 0.55rem 0.75rem;
+			padding: 0.6rem 0.8rem;
 			border-radius: 10px;
 			background: var(--surface-subtle);
 			border: 1px solid var(--border-hairline);
+
+			@media (max-width: 520px) {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 0.22rem;
+			}
 		}
 	}
 
@@ -115,5 +121,9 @@
 		font-size: 0.72rem;
 		color: var(--accent-mova-light);
 		text-align: right;
+
+		@media (max-width: 520px) {
+			text-align: left;
+		}
 	}
 </style>

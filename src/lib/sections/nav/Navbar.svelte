@@ -21,6 +21,7 @@
 	let isScrolled = $state(false);
 	let mobileOpen = $state(false);
 
+	let headerEl = $state<HTMLElement | undefined>(undefined);
 	let navTrackEl = $state<HTMLDivElement | undefined>(undefined);
 	let buttonEls = $state<Record<string, HTMLButtonElement | null>>({});
 
@@ -103,9 +104,29 @@
 			observer?.disconnect();
 		};
 	});
+	$effect(() => {
+		if (!mobileOpen) return;
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (event.key === 'Escape') mobileOpen = false;
+		};
+		const handlePointerDown = (event: PointerEvent) => {
+			if (headerEl && event.target instanceof Node && !headerEl.contains(event.target)) {
+				mobileOpen = false;
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		window.addEventListener('pointerdown', handlePointerDown);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('pointerdown', handlePointerDown);
+		};
+	});
 </script>
 
-<header class="navbar-wrapper" class:scrolled={isScrolled}>
+<header bind:this={headerEl} class="navbar-wrapper" class:scrolled={isScrolled}>
 	<nav class="pill-navbar" aria-label="Navegación principal">
 		<button
 			type="button"
