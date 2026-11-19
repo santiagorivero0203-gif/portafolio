@@ -1,27 +1,27 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import Icon from '$lib/components/Icon.svelte';
+	import Icon, { type IconName } from '$lib/components/Icon.svelte';
 	import { scrollToTarget } from '$lib/motion/lenis';
 
 	interface NavItem {
 		id: string;
 		label: string;
+		shortLabel: string;
+		icon: IconName;
 	}
 
 	const navItems: NavItem[] = [
-		{ id: 'inicio', label: 'Inicio' },
-		{ id: 'sobre-mi', label: 'Sobre mí' },
-		{ id: 'proyectos', label: 'Portafolio' },
-		{ id: 'respaldo', label: 'Respaldo' },
-		{ id: 'contacto', label: 'Contacto' }
+		{ id: 'inicio', label: 'Inicio', shortLabel: 'Inicio', icon: 'home' },
+		{ id: 'sobre-mi', label: 'Sobre mí', shortLabel: 'Sobre mí', icon: 'user' },
+		{ id: 'proyectos', label: 'Portafolio', shortLabel: 'Proyectos', icon: 'grid' },
+		{ id: 'respaldo', label: 'Respaldo', shortLabel: 'Respaldo', icon: 'award' },
+		{ id: 'contacto', label: 'Contacto', shortLabel: 'Contacto', icon: 'mail' }
 	];
 
 	let activeId = $state<string>('inicio');
 	let isScrolled = $state(false);
-	let mobileOpen = $state(false);
 
-	let headerEl = $state<HTMLElement | undefined>(undefined);
 	let navTrackEl = $state<HTMLDivElement | undefined>(undefined);
 	let buttonEls = $state<Record<string, HTMLButtonElement | null>>({});
 
@@ -32,7 +32,8 @@
 	const isHome = $derived(page.url.pathname === '/');
 
 	function updateIndicator() {
-		const targetId = !isHome && page.url.pathname.startsWith('/proyectos') ? 'proyectos' : activeId;
+		const targetId =
+			!isHome && page.url.pathname.startsWith('/proyectos') ? 'proyectos' : activeId;
 		const activeBtn = buttonEls[targetId];
 		if (!activeBtn || !navTrackEl) return;
 
@@ -41,22 +42,28 @@
 		indicatorVisible = true;
 	}
 
+	function getScrollOffset(): number {
+		if (typeof window === 'undefined') return -88;
+		// Mobile dock sits at bottom, so top of section needs almost no top offset
+		return window.innerWidth <= 780 ? -20 : -88;
+	}
+
 	async function navigateTo(id: string) {
 		activeId = id;
-		mobileOpen = false;
+		const offset = getScrollOffset();
 
 		if (!isHome) {
 			await goto(`/#${id}`);
 			setTimeout(() => {
 				const el = document.getElementById(id);
-				if (el) scrollToTarget(el, -88);
+				if (el) scrollToTarget(el, offset);
 			}, 60);
 			return;
 		}
 
 		const target = document.getElementById(id);
 		if (target) {
-			scrollToTarget(target, -88);
+			scrollToTarget(target, offset);
 		}
 	}
 
@@ -104,30 +111,11 @@
 			observer?.disconnect();
 		};
 	});
-	$effect(() => {
-		if (!mobileOpen) return;
-
-		const handleKeyDown = (event: KeyboardEvent) => {
-			if (event.key === 'Escape') mobileOpen = false;
-		};
-		const handlePointerDown = (event: PointerEvent) => {
-			if (headerEl && event.target instanceof Node && !headerEl.contains(event.target)) {
-				mobileOpen = false;
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		window.addEventListener('pointerdown', handlePointerDown);
-
-		return () => {
-			window.removeEventListener('keydown', handleKeyDown);
-			window.removeEventListener('pointerdown', handlePointerDown);
-		};
-	});
 </script>
 
-<header bind:this={headerEl} class="navbar-wrapper" class:scrolled={isScrolled}>
+<header class="navbar-wrapper" class:scrolled={isScrolled}>
 	<nav class="pill-navbar" aria-label="Navegación principal">
+		<!-- Desktop pill navbar (> 780px) -->
 		<button
 			type="button"
 			class="brand-badge"
@@ -166,32 +154,25 @@
 			<Icon name="arrow-right" size={14} />
 		</button>
 
-		<button
-			type="button"
-			class="mobile-toggle"
-			aria-expanded={mobileOpen}
-			aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
-			onclick={() => (mobileOpen = !mobileOpen)}
-		>
-			<span class="bar" class:open={mobileOpen}></span>
-			<span class="bar" class:open={mobileOpen}></span>
-		</button>
-	</nav>
-
-	{#if mobileOpen}
-		<div class="mobile-menu" role="dialog" aria-label="Menú móvil">
+		<!-- Functional Mobile Bottom Dock (<= 780px) -->
+		<div class="mobile-dock" role="navigation" aria-label="Acceso rápido móvil">
 			{#each navItems as item (item.id)}
+				{@const isItemActive =
+					(!isHome && page.url.pathname.startsWith('/proyectos') && item.id === 'proyectos') ||
+					(isHome && activeId === item.id)}
 				<button
 					type="button"
-					class="mobile-link"
-					class:active={isHome && activeId === item.id}
+					class="dock-item"
+					class:active={isItemActive}
+					aria-current={isItemActive ? 'page' : undefined}
 					onclick={() => navigateTo(item.id)}
 				>
-					{item.label}
+					<Icon name={item.icon} size={17} strokeWidth={isItemActive ? 2.1 : 1.7} />
+					<span>{item.shortLabel}</span>
 				</button>
 			{/each}
 		</div>
-	{/if}
+	</nav>
 </header>
 
 <style lang="scss">
@@ -206,6 +187,16 @@
 
 		&.scrolled {
 			top: 0.8rem;
+		}
+
+		@media (max-width: 780px) {
+			top: auto;
+			bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+			width: min(calc(100% - 1.15rem), 430px);
+
+			&.scrolled {
+				top: auto;
+			}
 		}
 	}
 
@@ -228,6 +219,14 @@
 			background: rgba(11, 17, 32, 0.9);
 			border-color: var(--border-strong);
 		}
+
+		@media (max-width: 780px) {
+			padding: 0.32rem;
+			border-radius: 22px;
+			background: rgba(11, 17, 32, 0.9);
+			border-color: var(--border-strong);
+			box-shadow: 0 14px 36px rgba(2, 6, 23, 0.58);
+		}
 	}
 
 	.brand-badge {
@@ -244,6 +243,10 @@
 
 		&:hover {
 			background: var(--surface-subtle);
+		}
+
+		@media (max-width: 780px) {
+			display: none;
 		}
 	}
 
@@ -265,12 +268,12 @@
 		height: 100%;
 		border-radius: var(--radius-pill);
 		background: var(--accent-mova-soft);
-		border: 1px solid rgba(59, 130, 246, 0.35);
+		border: 1px solid rgba(59, 130, 246, 0.4);
 		opacity: 0;
 		pointer-events: none;
 		transition:
-			transform 0.4s var(--ease-out-expo),
-			width 0.4s var(--ease-out-expo),
+			transform 0.38s var(--ease-out-expo),
+			width 0.38s var(--ease-out-expo),
 			opacity 0.2s ease;
 
 		&.visible {
@@ -281,13 +284,12 @@
 	.nav-link {
 		position: relative;
 		z-index: 1;
-		padding: 0.44rem 0.78rem;
+		padding: 0.48rem 0.92rem;
 		border-radius: var(--radius-pill);
-		font-size: 0.84rem;
+		font-size: 0.87rem;
 		font-weight: 500;
 		color: var(--text-muted);
-		transition: color 0.22s ease;
-		white-space: nowrap;
+		transition: color 0.25s ease;
 
 		&:hover,
 		&.active {
@@ -298,12 +300,12 @@
 	.cta-pill {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.4rem;
-		padding: 0.46rem 0.92rem;
+		gap: 0.42rem;
+		padding: 0.5rem 0.98rem;
 		border-radius: var(--radius-pill);
 		background: var(--accent-mova);
 		color: var(--text-main);
-		font-size: 0.83rem;
+		font-size: 0.84rem;
 		font-weight: 600;
 		transition:
 			background-color 0.25s ease,
@@ -319,68 +321,52 @@
 		}
 	}
 
-	.mobile-toggle {
+	.mobile-dock {
 		display: none;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		gap: 5px;
-		width: 38px;
-		height: 38px;
-		border-radius: var(--radius-pill);
-		border: 1px solid var(--border-hairline);
-		background: var(--surface-subtle);
 
 		@media (max-width: 780px) {
-			display: inline-flex;
+			display: grid;
+			grid-template-columns: repeat(5, minmax(0, 1fr));
+			gap: 0.22rem;
+			width: 100%;
 		}
 	}
 
-	.bar {
-		width: 16px;
-		height: 1.5px;
-		background: var(--text-main);
-		border-radius: 2px;
-		transition: transform 0.25s ease;
-
-		&:first-child.open {
-			transform: translateY(3.2px) rotate(45deg);
-		}
-
-		&:last-child.open {
-			transform: translateY(-3.2px) rotate(-45deg);
-		}
-	}
-
-	.mobile-menu {
-		margin-top: 0.5rem;
-		padding: 0.55rem;
-		border-radius: 18px;
-		background: rgba(11, 17, 32, 0.94);
-		backdrop-filter: blur(16px);
-		-webkit-backdrop-filter: blur(16px);
-		border: 1px solid var(--border-hairline);
+	.dock-item {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
+		justify-content: center;
 		gap: 0.2rem;
-
-		@media (min-width: 781px) {
-			display: none;
-		}
-	}
-
-	.mobile-link {
-		text-align: left;
-		padding: 0.7rem 0.95rem;
-		border-radius: 12px;
-		font-size: 0.92rem;
-		font-weight: 500;
+		padding: 0.44rem 0.2rem;
+		border-radius: 16px;
 		color: var(--text-muted);
+		transition:
+			background-color 0.22s ease,
+			color 0.22s ease,
+			transform 0.2s var(--ease-out-expo);
 
-		&.active,
-		&:hover {
-			background: var(--accent-mova-soft);
+		span {
+			font-family: var(--font-sans);
+			font-size: 0.64rem;
+			font-weight: 500;
+			line-height: 1;
+			letter-spacing: 0.01em;
+			white-space: nowrap;
+		}
+
+		&.active {
+			background: var(--accent-mova);
 			color: var(--text-main);
+			box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+
+			span {
+				font-weight: 600;
+			}
+		}
+
+		&:active {
+			transform: scale(0.95);
 		}
 	}
 </style>

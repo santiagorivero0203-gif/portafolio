@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Media from '$lib/components/Media.svelte';
-	import { santiagoProfile } from '$lib/data/portfolioData';
-	import { getReducedMotion } from '$lib/motion/reducedMotion.svelte';
-	import { reveal } from '$lib/motion/reveal';
-	import EducationTimeline from './EducationTimeline.svelte';
+	import Media from "$lib/components/Media.svelte";
+	import { santiagoProfile } from "$lib/data/portfolioData";
+	import { getReducedMotion } from "$lib/motion/reducedMotion.svelte";
+	import { reveal } from "$lib/motion/reveal";
+	import EducationTimeline from "./EducationTimeline.svelte";
 
 	let statsBandEl = $state<HTMLDivElement | undefined>(undefined);
 	let projectsDisplay = $state(6);
@@ -33,7 +33,7 @@
 				requestAnimationFrame(frame);
 				observer.disconnect();
 			},
-			{ threshold: 0.35 }
+			{ threshold: 0.35 },
 		);
 
 		observer.observe(statsBandEl);
@@ -63,19 +63,27 @@
 							{#snippet fallback()}
 								<div class="portrait-placeholder">
 									<div class="placeholder-monogram">SR</div>
-									<span class="placeholder-code">{santiagoProfile.badgeCode}</span>
-									<span class="placeholder-note">Retrato pendiente</span>
+									<span class="placeholder-code"
+										>{santiagoProfile.badgeCode}</span
+									>
+									<span class="placeholder-note"
+										>Retrato pendiente</span
+									>
 								</div>
 							{/snippet}
 						</Media>
 					</div>
 				</div>
 
-				<div class="figures-strip" bind:this={statsBandEl} aria-label="Cifras de trayectoria">
+				<div
+					class="figures-strip"
+					bind:this={statsBandEl}
+					aria-label="Cifras de trayectoria"
+				>
 					{#each santiagoProfile.stats as stat (stat.id)}
 						<div class="figure-item">
 							<strong class="figure-value">
-								{#if stat.id === 'projects-stat'}
+								{#if stat.id === "projects-stat"}
 									{projectsDisplay}
 								{:else}
 									{stat.value}
@@ -159,7 +167,11 @@
 	.portrait-halo {
 		position: absolute;
 		inset: 12% 14% 18%;
-		background: radial-gradient(circle, var(--accent-mova-soft) 0%, transparent 70%);
+		background: radial-gradient(
+			circle,
+			var(--accent-mova-soft) 0%,
+			transparent 70%
+		);
 		pointer-events: none;
 		z-index: 0;
 	}
@@ -169,7 +181,11 @@
 		z-index: 1;
 		width: min(100%, 330px);
 		height: 350px;
-		-webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+		-webkit-mask-image: linear-gradient(
+			to bottom,
+			#000 80%,
+			transparent 100%
+		);
 		mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 
 		@media (max-width: 640px) {
@@ -251,7 +267,11 @@
 
 			&:last-child {
 				grid-column: 1 / -1;
-				background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, var(--surface-card) 72%);
+				background: linear-gradient(
+					135deg,
+					rgba(37, 99, 235, 0.12) 0%,
+					var(--surface-card) 72%
+				);
 				border-color: rgba(59, 130, 246, 0.32) !important;
 			}
 		}

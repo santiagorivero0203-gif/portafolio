@@ -1,7 +1,11 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import Media from '$lib/components/Media.svelte';
-	import { certificatesData, santiagoProfile, type Certificate } from '$lib/data/portfolioData';
+	import Icon from "$lib/components/Icon.svelte";
+	import Media from "$lib/components/Media.svelte";
+	import {
+		certificatesData,
+		santiagoProfile,
+		type Certificate,
+	} from "$lib/data/portfolioData";
 
 	interface Props {
 		onSelectCertificate: (cert: Certificate) => void;
@@ -9,13 +13,22 @@
 
 	let { onSelectCertificate }: Props = $props();
 
-	const kuriosCert = certificatesData.find((c) => c.id === 'kurios-2026-ucode');
+	const kuriosCert = certificatesData.find(
+		(c) => c.id === "kurios-2026-ucode",
+	);
 </script>
 
-<div class="certs-panel" role="tabpanel" id="panel-certificates" aria-labelledby="tab-certificates">
+<div
+	class="certs-panel"
+	role="tabpanel"
+	id="panel-certificates"
+	aria-labelledby="tab-certificates"
+>
 	<article class="kurios-banner">
 		<div class="banner-copy">
-			<span class="banner-eyebrow">21 de marzo de 2026 · Torneo Nacional de Robótica y Tecnología</span>
+			<span class="banner-eyebrow"
+				>21 de marzo de 2026 · Torneo Nacional de Robótica y Tecnología</span
+			>
 			<h3>1er Lugar — Kurios Competition 2026 (Categoría U-Code)</h3>
 			<p>{santiagoProfile.kuriosNarrative}</p>
 		</div>
@@ -41,7 +54,11 @@
 
 	<div class="certs-grid">
 		{#each certificatesData as cert (cert.id)}
-			<button type="button" class="cert-card" onclick={() => onSelectCertificate(cert)}>
+			<button
+				type="button"
+				class="cert-card"
+				onclick={() => onSelectCertificate(cert)}
+			>
 				<div class="cert-preview">
 					<Media
 						src={cert.imageUrl}

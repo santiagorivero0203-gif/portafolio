@@ -87,6 +87,10 @@
 		padding-block: var(--section-pad-y);
 		border-top: 1px solid var(--border-hairline);
 		background: rgba(7, 11, 20, 0.65);
+
+		@media (max-width: 780px) {
+			padding-bottom: calc(var(--section-pad-y) + 5rem);
+		}
 	}
 
 	.footer-box {

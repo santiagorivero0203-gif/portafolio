@@ -13,7 +13,11 @@
 		| 'eye'
 		| 'cube'
 		| 'atom'
-		| 'flip';
+		| 'flip'
+		| 'home'
+		| 'user'
+		| 'grid'
+		| 'mail';
 
 	interface Props {
 		name: IconName;
@@ -81,6 +85,19 @@
 		<path d="M21 3v5h-5" />
 		<path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
 		<path d="M3 21v-5h5" />
+	{:else if name === 'home'}
+		<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1v-9.5Z" />
+	{:else if name === 'user'}
+		<circle cx="12" cy="8" r="4" />
+		<path d="M4.5 20c1.4-3.4 4.3-5 7.5-5s6.1 1.6 7.5 5" />
+	{:else if name === 'grid'}
+		<rect x="3" y="3" width="7" height="7" rx="1.5" />
+		<rect x="14" y="3" width="7" height="7" rx="1.5" />
+		<rect x="3" y="14" width="7" height="7" rx="1.5" />
+		<rect x="14" y="14" width="7" height="7" rx="1.5" />
+	{:else if name === 'mail'}
+		<rect x="3" y="5" width="18" height="14" rx="2" />
+		<path d="m3 7 9 6 9-6" />
 	{/if}
 </svg>
 

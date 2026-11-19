@@ -1,21 +1,23 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
-	import { Canvas } from '@threlte/core';
-	import * as THREE from 'three';
-	import Icon from '$lib/components/Icon.svelte';
-	import { santiagoProfile } from '$lib/data/portfolioData';
-	import { observeReducedMotion } from '$lib/motion/reducedMotion.svelte';
+	import type { Component } from "svelte";
+	import { Canvas } from "@threlte/core";
+	import * as THREE from "three";
+	import Icon from "$lib/components/Icon.svelte";
+	import { santiagoProfile } from "$lib/data/portfolioData";
+	import { observeReducedMotion } from "$lib/motion/reducedMotion.svelte";
 
 	interface LanyardProps {
 		paused?: boolean;
 		flipped?: boolean;
 		overlayEl?: HTMLElement | undefined;
 		slotEl?: HTMLElement | undefined;
+		pinEl?: HTMLElement | undefined;
 		onDragChange?: (dragging: boolean) => void;
 	}
 
 	let slotEl = $state<HTMLDivElement | undefined>(undefined);
 	let overlayEl = $state<HTMLDivElement | undefined>(undefined);
+	let pinEl = $state<HTMLDivElement | undefined>(undefined);
 	let LanyardSceneComponent = $state<Component<LanyardProps> | null>(null);
 	let isVisible = $state(true);
 	let isDragging = $state(false);
@@ -24,12 +26,12 @@
 	let webglSupported = $state(true);
 
 	function hasWebGL(): boolean {
-		if (typeof document === 'undefined') return false;
+		if (typeof document === "undefined") return false;
 		try {
-			const canvas = document.createElement('canvas');
+			const canvas = document.createElement("canvas");
 			return Boolean(
 				window.WebGLRenderingContext &&
-					(canvas.getContext('webgl2') || canvas.getContext('webgl'))
+					(canvas.getContext("webgl2") || canvas.getContext("webgl")),
 			);
 		} catch {
 			return false;
@@ -44,7 +46,7 @@
 
 		let active = true;
 		if (!reducedMotion && webglSupported && !LanyardSceneComponent) {
-			import('./LanyardScene.svelte').then((mod) => {
+			import("./LanyardScene.svelte").then((mod) => {
 				if (active) LanyardSceneComponent = mod.default;
 			});
 		}
@@ -58,7 +60,7 @@
 						isVisible = entry.isIntersecting;
 					}
 				},
-				{ threshold: 0.02 }
+				{ threshold: 0.02 },
 			);
 			observer.observe(overlayEl);
 		}
@@ -71,7 +73,7 @@
 	});
 
 	const showInteractive3D = $derived(
-		!reducedMotion && webglSupported && LanyardSceneComponent !== null
+		!reducedMotion && webglSupported && LanyardSceneComponent !== null,
 	);
 </script>
 
@@ -89,6 +91,7 @@
 				{flipped}
 				{overlayEl}
 				{slotEl}
+				{pinEl}
 				onDragChange={(dragging) => (isDragging = dragging)}
 			/>
 		</Canvas>
@@ -103,7 +106,13 @@
 		role="region"
 		aria-label="Credencial interactiva de Santiago Rivero"
 	>
-		<!-- Mobile-only editorial context behind the hanging 3D lanyard (hidden on desktop) -->
+		<!-- Mobile-only attachment rail & editorial backdrop below hero copy (hidden on desktop) -->
+		<div class="mobile-anchor-rail" aria-hidden="true">
+			<span class="rail-line"></span>
+			<div class="rail-pin" bind:this={pinEl}></div>
+			<span class="rail-line"></span>
+		</div>
+
 		<div class="mobile-stage-backdrop" aria-hidden="true">
 			<span class="mobile-watermark">Santiago</span>
 			<div class="mobile-flank-meta">
@@ -125,9 +134,15 @@
 					{#if !flipped}
 						<div class="static-body">
 							<div class="static-monogram">SR</div>
-							<strong class="static-name">{santiagoProfile.displayName}</strong>
-							<span class="static-role">Software Developer & Creative Engineer</span>
-							<span class="static-degree">Física UCV · 1er Semestre</span>
+							<strong class="static-name"
+								>{santiagoProfile.displayName}</strong
+							>
+							<span class="static-role"
+								>Software Developer & Creative Engineer</span
+							>
+							<span class="static-degree"
+								>Física UCV · 1er Semestre</span
+							>
 							<div class="static-identity">
 								<span>{santiagoProfile.fullName}</span>
 								<strong>{santiagoProfile.location}</strong>
@@ -135,11 +150,19 @@
 						</div>
 					{:else}
 						<div class="static-body back">
-							<span class="static-formula">m·x'' + c·x' + k·x = 0</span>
-							<strong class="static-name">Perfil y Credenciales</strong>
+							<span class="static-formula"
+								>m·x'' + c·x' + k·x = 0</span
+							>
+							<strong class="static-name"
+								>Perfil y Credenciales</strong
+							>
 							<ul class="static-seals">
-								<li>UCV · Licenciatura en Física (1er Semestre)</li>
-								<li>CEP · FACES · UCV — Oratoria y Persuasión</li>
+								<li>
+									UCV · Licenciatura en Física (1er Semestre)
+								</li>
+								<li>
+									CEP · FACES · UCV — Oratoria y Persuasión
+								</li>
 								<li>Python Avalado & Ecosistema IA Google</li>
 								<li>MOVA IA, Web 3D & Videojuegos 2D</li>
 							</ul>
@@ -152,11 +175,15 @@
 
 	<div class="lanyard-controls">
 		<span class="physics-hint">
-			{showInteractive3D ? 'Arrastra el carnet' : 'Santiago Rivero · UCV'}
+			{showInteractive3D ? "Arrastra el carnet" : "Santiago Rivero · UCV"}
 		</span>
-		<button type="button" class="flip-btn" onclick={() => (flipped = !flipped)}>
+		<button
+			type="button"
+			class="flip-btn"
+			onclick={() => (flipped = !flipped)}
+		>
 			<Icon name="flip" size={14} />
-			<span>{flipped ? 'Ver frente' : 'Voltear'}</span>
+			<span>{flipped ? "Ver frente" : "Voltear"}</span>
 		</button>
 	</div>
 </div>
@@ -167,7 +194,8 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: max(120svh, 920px);
+		height: calc(100% + 96px);
+		min-height: 100svh;
 		z-index: 40;
 		pointer-events: none;
 
@@ -192,8 +220,40 @@
 		pointer-events: none;
 
 		@media (max-width: 960px) {
-			height: clamp(275px, 38svh, 330px);
+			height: clamp(335px, 44svh, 395px);
+			padding-top: 1.4rem;
 		}
+	}
+
+	.mobile-anchor-rail {
+		display: none;
+
+		@media (max-width: 960px) {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			width: 100%;
+			margin-bottom: 0.35rem;
+		}
+	}
+
+	.rail-line {
+		flex: 1;
+		height: 1px;
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(148, 163, 184, 0.28) 50%,
+			transparent 100%
+		);
+	}
+
+	.rail-pin {
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		border: 1px solid rgba(148, 163, 184, 0.45);
+		background: rgba(15, 23, 42, 0.9);
 	}
 
 	.mobile-stage-backdrop {
@@ -204,7 +264,7 @@
 			flex-direction: column;
 			justify-content: space-between;
 			position: absolute;
-			inset: 0.35rem 0 0;
+			inset: 2.35rem 0 0;
 			pointer-events: none;
 			overflow: hidden;
 		}

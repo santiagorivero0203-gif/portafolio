@@ -151,7 +151,11 @@
 		padding-top: clamp(7.5rem, 13vw, 9.75rem);
 
 		@media (max-width: 960px) {
-			padding-top: 0.5rem;
+			padding-top: 6rem;
+		}
+
+		@media (max-width: 780px) {
+			padding-top: clamp(2rem, 6vw, 2.75rem);
 		}
 	}
 
@@ -305,9 +309,8 @@
 		padding-top: 6.2rem;
 
 		@media (max-width: 960px) {
-			order: -1;
 			max-width: 100%;
-			padding-top: 4.35rem;
+			padding-top: 0.5rem;
 		}
 	}
 </style>

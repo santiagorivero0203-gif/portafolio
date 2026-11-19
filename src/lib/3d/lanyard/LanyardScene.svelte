@@ -20,6 +20,7 @@
 		flipped?: boolean;
 		overlayEl?: HTMLElement | undefined;
 		slotEl?: HTMLElement | undefined;
+		pinEl?: HTMLElement | undefined;
 		onDragChange?: (dragging: boolean) => void;
 	}
 
@@ -31,6 +32,7 @@
 		flipped = false,
 		overlayEl = undefined,
 		slotEl = undefined,
+		pinEl = undefined,
 		onDragChange
 	}: Props = $props();
 
@@ -40,6 +42,8 @@
 	let strapRef = $state<THREE.Mesh | undefined>(undefined);
 
 	let camZ = $state(11.5);
+	let isMobileAnchor = $state(false);
+	let anchorStud = $state({ x: 0, y: 4.35 });
 	let bounds = { minX: -5, maxX: 5, minY: -3.5, maxY: 3.5, visH: 7.5, visW: 11 };
 	let overlayMetrics = { docLeft: 0, docTop: 0, width: 1200, height: 920 };
 	let anchor: LanyardAnchor = { ...LANYARD_CONSTANTS };
@@ -78,8 +82,14 @@
 		};
 
 		const isMobile = window.innerWidth <= 960;
+		isMobileAnchor = isMobile;
+
+		const pRect = pinEl?.getBoundingClientRect();
+		const hasMobilePin = Boolean(isMobile && pRect && pRect.height > 0);
+		const usableSlotHeight = hasMobilePin && pRect ? Math.max(210, sRect.bottom - pRect.bottom) : sRect.height;
+
 		const targetCardPx = isMobile
-			? Math.min(280, Math.max(225, sRect.height * 0.85))
+			? Math.min(272, Math.max(210, usableSlotHeight * 0.72))
 			: Math.min(445, Math.max(365, window.innerHeight * 0.54));
 
 		const visH = (CARD_WORLD_HEIGHT * oRect.height) / targetCardPx;
@@ -88,7 +98,10 @@
 		camZ = visH / (2 * Math.tan(halfFovRad));
 
 		const slotCenterPxX = sRect.left + sRect.width / 2 - oRect.left;
-		const slotCenterPxY = sRect.top + sRect.height / 2 - oRect.top;
+		const slotCenterPxY =
+			hasMobilePin && pRect
+				? pRect.bottom - oRect.top + usableSlotHeight * 0.55
+				: sRect.top + sRect.height / 2 - oRect.top;
 
 		const ndcX = (slotCenterPxX / oRect.width) * 2 - 1;
 		const ndcY = 1 - (slotCenterPxY / oRect.height) * 2;
@@ -96,27 +109,34 @@
 		const worldX = ndcX * (visW / 2);
 		const worldY = ndcY * (visH / 2);
 
-		// Strap originates cleanly above the very top edge of the page (y = 0)
-		const topEdgeWorldY = visH / 2 + 0.25;
+		let anchorWorldY = visH / 2 + 0.25;
+		if (hasMobilePin && pRect) {
+			const pinPxY = pRect.top + pRect.height / 2 - oRect.top;
+			const pinNdcY = 1 - (pinPxY / oRect.height) * 2;
+			anchorWorldY = pinNdcY * (visH / 2);
+		}
 
+		const prevAnchorY = anchor.anchorY;
 		anchor = {
 			anchorX: worldX,
-			anchorY: topEdgeWorldY,
+			anchorY: anchorWorldY,
 			equilibriumX: worldX,
 			equilibriumY: worldY,
 			clipOffsetY: LANYARD_CONSTANTS.clipOffsetY
 		};
+		anchorStud = { x: worldX, y: anchorWorldY };
 
+		const topPageWorldY = visH / 2;
 		bounds = {
 			minX: -visW / 2 + 1.15,
 			maxX: visW / 2 - 1.15,
 			minY: -visH / 2 + 1.65,
-			maxY: topEdgeWorldY - LANYARD_CONSTANTS.clipOffsetY - 0.15,
+			maxY: topPageWorldY - 1.45,
 			visH,
 			visW
 		};
 
-		if (!hasInitializedAnchor) {
+		if (!hasInitializedAnchor || (!isDragging && Math.abs(prevAnchorY - anchor.anchorY) > 1.25)) {
 			hasInitializedAnchor = true;
 			physics = createInitialPhysicsState(anchor);
 			dragTargetX = anchor.equilibriumX;
@@ -191,6 +211,7 @@
 		});
 		if (overlayEl) resizeObserver.observe(overlayEl);
 		if (slotEl) resizeObserver.observe(slotEl);
+		if (pinEl) resizeObserver.observe(pinEl);
 
 		const isBlockedUiControl = (target: EventTarget | null) =>
 			target instanceof Element &&
@@ -325,6 +346,13 @@
 	<T.BoxGeometry args={[0.26, 1, 0.024]} />
 	<T.MeshStandardMaterial color="#1D4ED8" roughness={0.62} metalness={0.12} toneMapped={false} />
 </T.Mesh>
+
+{#if isMobileAnchor}
+	<T.Mesh position={[anchorStud.x, anchorStud.y, 0.01]} rotation.x={Math.PI / 2}>
+		<T.CylinderGeometry args={[0.14, 0.14, 0.06, 20]} />
+		<T.MeshStandardMaterial color="#94A3B8" metalness={0.85} roughness={0.22} />
+	</T.Mesh>
+{/if}
 
 <T.Group
 	bind:ref={cardGroupRef}

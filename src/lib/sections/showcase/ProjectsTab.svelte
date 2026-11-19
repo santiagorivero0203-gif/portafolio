@@ -1,35 +1,45 @@
 <script lang="ts">
-	import Icon from '$lib/components/Icon.svelte';
-	import { featuredProjects } from '$lib/data/portfolioData';
-	import ProjectCard from './ProjectCard.svelte';
+	import Icon from "$lib/components/Icon.svelte";
+	import { featuredProjects } from "$lib/data/portfolioData";
+	import ProjectCard from "./ProjectCard.svelte";
 
-	const flagshipIds = new Set(['mova', 'the-last-endo']);
-	const flagshipProjects = featuredProjects.filter((p) => flagshipIds.has(p.id));
+	const flagshipIds = new Set(["mova", "the-last-endo"]);
+	const flagshipProjects = featuredProjects.filter((p) =>
+		flagshipIds.has(p.id),
+	);
 	const coreProjects = featuredProjects.filter((p) => !flagshipIds.has(p.id));
 
 	// Mobile chunking: 4 projects per page in a 2x2 bento grid
 	const MOBILE_PAGE_SIZE = 4;
 	const totalPages = Math.ceil(featuredProjects.length / MOBILE_PAGE_SIZE);
-	let mobilePage = $state<number | 'all'>(0);
+	let mobilePage = $state<number | "all">(0);
 
 	const mobileVisibleProjects = $derived(
-		mobilePage === 'all'
+		mobilePage === "all"
 			? featuredProjects
 			: featuredProjects.slice(
 					mobilePage * MOBILE_PAGE_SIZE,
-					mobilePage * MOBILE_PAGE_SIZE + MOBILE_PAGE_SIZE
-				)
+					mobilePage * MOBILE_PAGE_SIZE + MOBILE_PAGE_SIZE,
+				),
 	);
 
 	function pageLabel(idx: number): string {
 		const start = idx * MOBILE_PAGE_SIZE + 1;
-		const end = Math.min(featuredProjects.length, (idx + 1) * MOBILE_PAGE_SIZE);
-		const pad = (n: number) => String(n).padStart(2, '0');
+		const end = Math.min(
+			featuredProjects.length,
+			(idx + 1) * MOBILE_PAGE_SIZE,
+		);
+		const pad = (n: number) => String(n).padStart(2, "0");
 		return `${pad(start)}–${pad(end)}`;
 	}
 </script>
 
-<div class="projects-wrapper" role="tabpanel" id="panel-projects" aria-labelledby="tab-projects">
+<div
+	class="projects-wrapper"
+	role="tabpanel"
+	id="panel-projects"
+	aria-labelledby="tab-projects"
+>
 	<!-- Desktop layout (> 780px): preserved identically -->
 	<div class="projects-layout desktop-only">
 		<div class="flagship-grid">
@@ -47,7 +57,11 @@
 
 	<!-- Mobile layout (<= 780px): 2x2 bento grid divided 4 by 4 -->
 	<div class="mobile-projects mobile-only">
-		<div class="mobile-chunk-bar" role="group" aria-label="Bloques de proyectos de cuatro en cuatro">
+		<div
+			class="mobile-chunk-bar"
+			role="group"
+			aria-label="Bloques de proyectos de cuatro en cuatro"
+		>
 			<div class="chunk-pills">
 				{#each Array.from({ length: totalPages }, (_, i) => i) as pageIdx}
 					<button
@@ -62,14 +76,14 @@
 				<button
 					type="button"
 					class="chunk-pill"
-					class:active={mobilePage === 'all'}
-					onclick={() => (mobilePage = 'all')}
+					class:active={mobilePage === "all"}
+					onclick={() => (mobilePage = "all")}
 				>
 					Todos ({featuredProjects.length})
 				</button>
 			</div>
 			<span class="chunk-counter">
-				{mobilePage === 'all'
+				{mobilePage === "all"
 					? `${featuredProjects.length} en cuadrícula`
 					: `Bloque ${mobilePage + 1} / ${totalPages}`}
 			</span>
@@ -81,14 +95,15 @@
 			{/each}
 		</div>
 
-		{#if mobilePage !== 'all' && totalPages > 1}
+		{#if mobilePage !== "all" && totalPages > 1}
 			<div class="mobile-chunk-nav">
 				<button
 					type="button"
 					class="chunk-nav-btn"
 					disabled={mobilePage === 0}
 					onclick={() => {
-						if (typeof mobilePage === 'number' && mobilePage > 0) mobilePage -= 1;
+						if (typeof mobilePage === "number" && mobilePage > 0)
+							mobilePage -= 1;
 					}}
 				>
 					<Icon name="arrow-left" size={14} />
@@ -100,7 +115,11 @@
 					class="chunk-nav-btn"
 					disabled={mobilePage === totalPages - 1}
 					onclick={() => {
-						if (typeof mobilePage === 'number' && mobilePage < totalPages - 1) mobilePage += 1;
+						if (
+							typeof mobilePage === "number" &&
+							mobilePage < totalPages - 1
+						)
+							mobilePage += 1;
 					}}
 				>
 					<span>Siguiente bloque</span>
